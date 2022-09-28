@@ -33,6 +33,15 @@ create table course (
     PRIMARY KEY (id)
 ) ENGINE=INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8MB4;
 
+create table prerequisite(
+    id   BIGINT NOT NULL AUTO_INCREMENT COMMENT '要求编号',
+    pre_id BIGINT COMMENT '先修课程编号',
+    post_id BIGINT COMMENT '后修课程编号',
+    foreign key (pre_id) references course (id) on delete cascade,
+    foreign key (post_id) references course (id) on delete cascade,
+    PRIMARY KEY (id)
+)ENGINE=INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8MB4;
+
 insert into user(name, is_admin, password, description)
 value ("admin",true,"9C@e12sq","吾心吾行澄如明镜，所作所为皆属正义！");
 
