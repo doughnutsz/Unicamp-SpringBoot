@@ -8,13 +8,14 @@ create table user
     name VARCHAR(100) NOT NULL COMMENT '用户名',
     is_admin BOOL NOT NULL COMMENT '是否为管理员',
     password VARCHAR(100) NOT NULL COMMENT '密码',
-    description VARCHAR(255) COMMENT '介绍',
+    description VARCHAR(255) COMMENT '自我介绍',
     primary key (id)
 )ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET = UTF8MB4;
 
 create table category (
     id   BIGINT NOT NULL AUTO_INCREMENT COMMENT '类别编号',
     name VARCHAR(100) NOT NULL COMMENT '类别名',
+    description VARCHAR(255) COMMENT '类别介绍',
     PRIMARY KEY (id)
 ) ENGINE=INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8MB4;
 
@@ -23,7 +24,7 @@ create table course (
     category_id BIGINT COMMENT '所属类别编号',
     name VARCHAR(100) NOT NULL COMMENT '课程名',
     provider VARCHAR(100) NOT NULL COMMENT '提供方',
-    description VARCHAR(255) COMMENT '介绍',
+    description VARCHAR(255) COMMENT '课程介绍',
     difficulty INT UNSIGNED COMMENT '星级难度',
     est_hour INT UNSIGNED COMMENT '预计学时',
     website VARCHAR(255) COMMENT '课程官网',
