@@ -5,6 +5,20 @@
     <select id="count" resultType="long">
         select count(*) from user;
     </select>
-
+    <select id="findUserByName" resultType="com.perfectmatch.unicampspringboot.db.UserDao">
+        select * from user where name = #{name};
+    </select>
+    <select id="findUserById" resultType="com.perfectmatch.unicampspringboot.db.UserDao">
+        select * from user where id = #{id};
+    </select>
+    <insert id="insertUser" parameterType="String">
+        insert into user (name,password) values (name,password);
+    </insert>
+    <update id="updateProfile" parameterType="String">
+        update user set name=#{name},description=#{description} where id=#{id};
+    </update>
+    <update id="updatePassword" parameterType="String">
+        update user set password=#{password} where id=#{id};
+    </update>
 
 </mapper>

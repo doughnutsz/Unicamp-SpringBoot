@@ -40,7 +40,7 @@ public class JWTUtils {
         return JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
     }
 
-    public static String getLoginToken(String id, String type, String reset) {
+    public static String getLoginToken(String id, String type) {
         Map<String, String> payload = new HashMap<String, String>();
         payload.put("id", id);
         payload.put("type", type);
