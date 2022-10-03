@@ -10,7 +10,7 @@ import lombok.*;
 public class UserDao {
     private Long id;
     private String name;
-    private Boolean isAdmin = false;
+    private Boolean isAdmin;
     private String password;
     private String description;
 }

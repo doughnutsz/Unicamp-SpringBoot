@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserServices {
 
     public UserDao UserLogin(String name, String password) {
         UserDao user = GetUserByName(name);
-        if (Objects.equals(new MyCrypto().encode(password), user.getPassword())) {
+        if (user != null && Objects.equals(new MyCrypto().encode(password), user.getPassword())) {
             return user;
         } else return null;
     }
@@ -30,7 +30,8 @@ public class UserServiceImpl implements UserServices {
     }
 
     public void UserRegister(String name, String password) {
-        userMapper.insertUser(name, password);
+        String encoded = new MyCrypto().encode(password);
+        userMapper.insertUser(name, encoded);
     }
 
     public void UserProfileUpdate(Long id, String name, String description) {
