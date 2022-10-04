@@ -12,7 +12,7 @@
         select * from user where id = #{id};
     </select>
     <insert id="insertUser" parameterType="String">
-        insert into user (name,password) values (name,password);
+        insert into user (name,password) values (#{name},#{password});
     </insert>
     <update id="updateProfile" parameterType="String">
         update user set name=#{name},description=#{description} where id=#{id};

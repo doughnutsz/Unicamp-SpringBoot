@@ -2,16 +2,15 @@ package com.perfectmatch.unicampspringboot.controllers;
 
 import com.perfectmatch.unicampspringboot.db.UserDao;
 import com.perfectmatch.unicampspringboot.services.UserServices;
+import com.perfectmatch.unicampspringboot.utils.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import com.perfectmatch.unicampspringboot.utils.JWTUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 @Controller // This means that this class is a Controller
 @CrossOrigin
@@ -58,7 +57,8 @@ public class UserController {
             @RequestBody UserLoginBody body
     ) {
         Map<String, Object> map = new HashMap<>();
-        if (userServices.GetUserByName(body.name) != null) {//make sure name is unique
+        UserDao sameUser = userServices.GetUserByName(body.name);
+        if (sameUser != null) {//make sure name is unique
             map.put("state", false);
             map.put("message", "The username is already taken");
             map.put("token", "");
@@ -89,7 +89,7 @@ public class UserController {
                 map.put("message", "name and password not match");
                 map.put("token", "");
             } else {
-                String token = JWTUtils.getLoginToken((user.getId()).toString(), user.getIsAdmin() ? "admin" : "");
+                String token = JWTUtils.getLoginToken((user.getId()).toString(), user.getIs_admin() ? "admin" : "");
                 map.put("state", true);
                 map.put("message", "login successfully");
                 map.put("token", token);
@@ -125,7 +125,7 @@ public class UserController {
             return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
         }
         UserDao sameNameUser = userServices.GetUserByName(body.name);
-        if (sameNameUser != null && !Objects.equals(sameNameUser.getId(), user.getId())) {//use a taken name(not himself)
+        if (sameNameUser != null && !sameNameUser.getId().equals(user.getId())) {//use a taken name(not himself)
             map.put("state", false);
             map.put("message", "The username is already taken");
             return new ResponseEntity<>(map, HttpStatus.OK);

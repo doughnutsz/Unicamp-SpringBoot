@@ -7,8 +7,6 @@ import com.perfectmatch.unicampspringboot.utils.MyCrypto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
 public class UserServiceImpl implements UserServices {
     @Autowired
@@ -16,7 +14,8 @@ public class UserServiceImpl implements UserServices {
 
     public UserDao UserLogin(String name, String password) {
         UserDao user = GetUserByName(name);
-        if (user != null && Objects.equals(new MyCrypto().encode(password), user.getPassword())) {
+
+        if (user != null && MyCrypto.matches(password, user.getPassword())) {
             return user;
         } else return null;
     }
@@ -30,15 +29,15 @@ public class UserServiceImpl implements UserServices {
     }
 
     public void UserRegister(String name, String password) {
-        String encoded = new MyCrypto().encode(password);
+        String encoded = MyCrypto.encode(password);
         userMapper.insertUser(name, encoded);
     }
 
     public void UserProfileUpdate(Long id, String name, String description) {
-        userMapper.updateProfile(id, name, description);
+        userMapper.updateProfile(id.toString(), name, description);
     }
 
     public void UserPasswordUpdate(Long id, String password) {
-        userMapper.updatePassword(id, new MyCrypto().encode(password));
+        userMapper.updatePassword(id.toString(), MyCrypto.encode(password));
     }
 }

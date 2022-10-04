@@ -13,7 +13,7 @@ public interface UserMapper {
 
     void insertUser(String name, String password);
 
-    void updateProfile(Long id, String name, String description);
+    void updateProfile(String id, String name, String description);
 
-    void updatePassword(Long id, String password);
+    void updatePassword(String id, String password);
 }
