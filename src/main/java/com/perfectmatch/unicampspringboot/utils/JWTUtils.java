@@ -26,11 +26,10 @@ public class JWTUtils {
         JWTCreator.Builder builder = JWT.create();
 
         // payload
-        map.forEach((k, v) -> builder.withClaim(k, v));
+        map.forEach(builder::withClaim);
 
-        String token = builder.withExpiresAt(instance.getTime())  //指定令牌过期时间
-                .sign(Algorithm.HMAC256(SIGN));  // sign
-        return token;
+        return builder.withExpiresAt(instance.getTime())  //指定令牌过期时间
+                .sign(Algorithm.HMAC256(SIGN));
     }
 
     /**
@@ -40,11 +39,19 @@ public class JWTUtils {
         return JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
     }
 
+    public static boolean verityAdmin(String token) {
+        boolean res = false;
+        try {
+            res = verify(token).getClaim("type").asString().equals("admin");
+        } catch (Exception e) {
+        }
+        return res;
+    }
+
     public static String getLoginToken(String id, String type) {
-        Map<String, String> payload = new HashMap<String, String>();
+        Map<String, String> payload = new HashMap<>();
         payload.put("id", id);
         payload.put("type", type);
-        String token = JWTUtils.getToken(payload);
-        return token;
+        return JWTUtils.getToken(payload);
     }
 }
