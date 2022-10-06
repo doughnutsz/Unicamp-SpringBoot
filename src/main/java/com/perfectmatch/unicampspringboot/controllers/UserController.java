@@ -3,6 +3,7 @@ package com.perfectmatch.unicampspringboot.controllers;
 import com.perfectmatch.unicampspringboot.db.UserDao;
 import com.perfectmatch.unicampspringboot.services.UserServices;
 import com.perfectmatch.unicampspringboot.utils.JWTUtils;
+import com.perfectmatch.unicampspringboot.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -118,29 +119,22 @@ public class UserController {
             @RequestHeader(value = "token") String token,
             @RequestBody UserProfileBody body
     ) {
-        Map<String, Object> map = new HashMap<>();
         Long id;
         try {
             id = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
         } catch (Exception e) {
-            return new ResponseEntity<>(map, HttpStatus.SERVICE_UNAVAILABLE);
+            return ResponseUtils.unauthorized();
         }
-
-
         UserDao user = userServices.GetUserById(id);
         if (user == null) {//no such userid
-            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+            return ResponseUtils.notFound();
         }
         UserDao sameNameUser = userServices.GetUserByName(body.name);
         if (sameNameUser != null && !sameNameUser.getId().equals(user.getId())) {//use a taken name(not himself)
-            map.put("state", false);
-            map.put("message", "The username is already taken");
-            return new ResponseEntity<>(map, HttpStatus.OK);
+            return ResponseUtils.fail("The username is already taken");
         }
         userServices.UserProfileUpdate(id, body.name, body.description);
-        map.put("state", true);
-        map.put("message", "modify successfully");
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return ResponseUtils.success("modify");
     }
 
     @PostMapping("/reset/password")
@@ -148,27 +142,22 @@ public class UserController {
             @RequestHeader(value = "token") String token,
             @RequestBody ResetPasswordBody body
     ) {
-        Map<String, Object> map = new HashMap<>();
         Long id;
         try {
             id = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
         } catch (Exception e) {
-            return new ResponseEntity<>(map, HttpStatus.SERVICE_UNAVAILABLE);
+            return ResponseUtils.unauthorized();
         }
         UserDao user = userServices.GetUserById(id);
         if (user == null) {
-            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+            return ResponseUtils.notFound();
         }
         UserDao checkLoginUser = userServices.UserLogin(user.getName(), body.oldPassword);
         if (checkLoginUser == null) {
-            map.put("state", false);
-            map.put("message", "old password is incorrect");
-            return new ResponseEntity<>(map, HttpStatus.OK);
+            return ResponseUtils.fail("old password is incorrect");
         }
         userServices.UserPasswordUpdate(id, body.newPassword);
-        map.put("state", true);
-        map.put("message", "modify successfully");
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return ResponseUtils.success("modify");
     }
 
 

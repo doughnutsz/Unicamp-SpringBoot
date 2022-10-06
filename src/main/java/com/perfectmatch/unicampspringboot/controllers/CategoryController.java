@@ -3,6 +3,8 @@ package com.perfectmatch.unicampspringboot.controllers;
 import com.perfectmatch.unicampspringboot.db.CategoryDao;
 import com.perfectmatch.unicampspringboot.services.CategoryServices;
 import com.perfectmatch.unicampspringboot.utils.JWTUtils;
+import com.perfectmatch.unicampspringboot.utils.MyUtils;
+import com.perfectmatch.unicampspringboot.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,11 +44,9 @@ public class CategoryController {
         Map<String, Object> map = new HashMap<>();
         CategoryDao category = categoryServices.getCategoryById(id);
         if (category == null) {
-            return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
+            return ResponseUtils.notFound();
         }
-        map.put("id", category.getId());
-        map.put("name", category.getName());
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return new ResponseEntity<>(MyUtils.Object2Map(category), HttpStatus.OK);
     }
 
     @PostMapping("/category/add")
@@ -57,7 +57,7 @@ public class CategoryController {
 
         Map<String, Object> map = new HashMap<>();
         if (!JWTUtils.verityAdmin(token)) {
-            return new ResponseEntity<>(map, HttpStatus.SERVICE_UNAVAILABLE);
+            return ResponseUtils.unavailable();
         }
         String name = body.get("name");
         CategoryDao sameName = categoryServices.getCategoryByName(name);
@@ -79,17 +79,13 @@ public class CategoryController {
     ) {
         Map<String, Object> map = new HashMap<>();
         if (!JWTUtils.verityAdmin(token)) {
-            return new ResponseEntity<>(map, HttpStatus.SERVICE_UNAVAILABLE);
+            return ResponseUtils.unavailable();
         }
         CategoryDao sameId = categoryServices.getCategoryById(body.id);
         if (sameId == null) {
-            map.put("state", false);
-            map.put("message", "there is no same id category");
-            return new ResponseEntity<>(map, HttpStatus.OK);
+            return ResponseUtils.notFound();
         }
         categoryServices.updateCategory(body.id, body.name);
-        map.put("state", true);
-        map.put("message", "update successfully");
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return ResponseUtils.success("update");
     }
 }
