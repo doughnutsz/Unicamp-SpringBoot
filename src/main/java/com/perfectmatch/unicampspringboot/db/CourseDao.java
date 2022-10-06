@@ -9,12 +9,12 @@ import lombok.*;
 @ToString
 public class CourseDao {
     private Long id;
-    private Long categoryId;
+    private Long category_id;
     private String name;
     private String provider;
     private String description;
     private Integer difficulty;
-    private Integer estHour;
+    private Integer est_hour;
     private String website;
     private String video;
     private String assignment;
