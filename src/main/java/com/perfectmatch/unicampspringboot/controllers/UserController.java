@@ -118,8 +118,15 @@ public class UserController {
             @RequestHeader(value = "token") String token,
             @RequestBody UserProfileBody body
     ) {
-        Long id = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
         Map<String, Object> map = new HashMap<>();
+        Long id;
+        try {
+            id = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
+        } catch (Exception e) {
+            return new ResponseEntity<>(map, HttpStatus.SERVICE_UNAVAILABLE);
+        }
+
+
         UserDao user = userServices.GetUserById(id);
         if (user == null) {//no such userid
             return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);
@@ -141,8 +148,13 @@ public class UserController {
             @RequestHeader(value = "token") String token,
             @RequestBody ResetPasswordBody body
     ) {
-        Long id = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
         Map<String, Object> map = new HashMap<>();
+        Long id;
+        try {
+            id = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
+        } catch (Exception e) {
+            return new ResponseEntity<>(map, HttpStatus.SERVICE_UNAVAILABLE);
+        }
         UserDao user = userServices.GetUserById(id);
         if (user == null) {
             return new ResponseEntity<>(map, HttpStatus.NOT_FOUND);

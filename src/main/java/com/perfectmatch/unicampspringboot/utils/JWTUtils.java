@@ -35,15 +35,21 @@ public class JWTUtils {
     /**
      * 验证token合法性,获取token信息方法
      */
-    public static DecodedJWT verify(String token) {
-        return JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
+    public static DecodedJWT verify(String token) throws Exception {
+        try {
+            return JWT.require(Algorithm.HMAC256(SIGN)).build().verify(token);
+        } catch (Exception e) {
+            throw new Exception();
+        }
+
     }
 
     public static boolean verityAdmin(String token) {
-        boolean res = false;
+        boolean res;
         try {
             res = verify(token).getClaim("type").asString().equals("admin");
         } catch (Exception e) {
+            return false;
         }
         return res;
     }
