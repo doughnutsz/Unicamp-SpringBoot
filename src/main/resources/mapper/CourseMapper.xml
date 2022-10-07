@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.perfectmatch.unicampspringboot.mapper.CourseMapper">
+    <select id="findCourseById" resultType="com.perfectmatch.unicampspringboot.db.CourseDao">
+        select * from course where id=#{id};
+    </select>
+    <insert id="insertCourse" parameterType="String">
+        insert into course (category_id, name, provider, description, difficulty, est_hour, website, video, assignment)
+        values (#{category_id}, #{name}, #{provider}, #{description}, #{difficulty}, #{est_hour}, #{website}, #{video},
+        #{assignment});
+    </insert>
+    <update id="updateCourse" parameterType="String">
+        update course set category_id=#{category_id}, name=#{name}, provider=#{provider}, description=#{description},
+        difficulty=#{difficulty}, est_hour=#{est_hour}, website=#{website}, video=#{video}, assignment=#{assignment}
+        where
+        id=#{id};
+    </update>
+    <delete id="deleteCourse" parameterType="String">
+        delete from course where id=#{id};
+    </delete>
+    <select id="listCourse" resultType="com.perfectmatch.unicampspringboot.db.CourseDao">
+        select * from course;
+    </select>
+    <select id="getPreCourse" resultType="Long">
+        select pre_id from prerequisite where post_id=#{id};
+    </select>
+    <select id="getPostCourse" resultType="Long">
+        select post_id from prerequisite where pre_id=#{id};
+    </select>
+    <select id="getPrerequisite" resultType="com.perfectmatch.unicampspringboot.db.Prerequisite">
+        select * from prerequisite where post_id=#{post_id} and pre_id=#{pre_id};
+    </select>
+    <insert id="addPrerequisite" parameterType="String">
+        insert into prerequisite (pre_id,post_id) values (#{pre_id},#{post_id});
+    </insert>
+    <delete id="deletePrerequisite" parameterType="String">
+        delete from prerequisite where pre_id=#{pre_id} and post_id=#{post_id};
+    </delete>
+    <delete id="deleteRelatedPrerequisite" parameterType="String">
+        delete from prerequisite where pre_id=#{id} or post_id=#{id};
+    </delete>
+</mapper>
