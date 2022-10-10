@@ -5,12 +5,15 @@
         select * from course where id=#{id};
     </select>
     <insert id="insertCourse" parameterType="String">
-        insert into course (category_id, name, provider, description, difficulty, est_hour, website, video, assignment)
-        values (#{category_id}, #{name}, #{provider}, #{description}, #{difficulty}, #{est_hour}, #{website}, #{video},
+        insert into course (subcategory_id, name, provider, description, difficulty, est_hour, website, video,
+        assignment)
+        values (#{subcategory_id}, #{name}, #{provider}, #{description}, #{difficulty}, #{est_hour}, #{website},
+        #{video},
         #{assignment});
     </insert>
     <update id="updateCourse" parameterType="String">
-        update course set category_id=#{category_id}, name=#{name}, provider=#{provider}, description=#{description},
+        update course set subcategory_id=#{subcategory_id}, name=#{name}, provider=#{provider},
+        description=#{description},
         difficulty=#{difficulty}, est_hour=#{est_hour}, website=#{website}, video=#{video}, assignment=#{assignment}
         where
         id=#{id};

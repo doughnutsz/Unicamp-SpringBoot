@@ -8,11 +8,11 @@ import java.util.List;
 public interface CourseServices {
     CourseDao getCourseById(Long id);
 
-    void addCourse(Long category_id, String name, String provider,
+    void addCourse(Long subcategory_id, String name, String provider,
                    String description, Integer difficulty, Integer est_hour,
                    String website, String video, String assignment);
 
-    void updateCourse(Long id, Long category_id, String name, String provider,
+    void updateCourse(Long id, Long subcategory_id, String name, String provider,
                       String description, Integer difficulty, Integer est_hour,
                       String website, String video, String assignment);
 

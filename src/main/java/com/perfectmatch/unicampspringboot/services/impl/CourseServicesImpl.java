@@ -18,18 +18,18 @@ public class CourseServicesImpl implements CourseServices {
         return courseMapper.findCourseById(id);
     }
 
-    public void addCourse(Long category_id, String name, String provider,
+    public void addCourse(Long subcategory_id, String name, String provider,
                           String description, Integer difficulty, Integer est_hour,
                           String website, String video, String assignment) {
-        courseMapper.insertCourse(category_id.toString(), name, provider,
+        courseMapper.insertCourse(subcategory_id.toString(), name, provider,
                 description, difficulty.toString(),
                 est_hour.toString(), website, video, assignment);
     }
 
-    public void updateCourse(Long id, Long category_id, String name, String provider,
+    public void updateCourse(Long id, Long subcategory_id, String name, String provider,
                              String description, Integer difficulty, Integer est_hour,
                              String website, String video, String assignment) {
-        courseMapper.updateCourse(id.toString(), category_id.toString(), name,
+        courseMapper.updateCourse(id.toString(), subcategory_id.toString(), name,
                 provider, description, difficulty.toString(),
                 est_hour.toString(), website, video, assignment);
     }
