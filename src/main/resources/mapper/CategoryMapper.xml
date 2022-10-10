@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.perfectmatch.unicampspringboot.mapper.CategoryMapper">
-    <insert id="insertCategory" parameterType="String">
-        insert into category (name) values (#{name});
-    </insert>
-    <update id="updateCategory" parameterType="String">
-        update category set name=#{name} where id=#{id};
-    </update>
-    <select id="findCategoryById" resultType="com.perfectmatch.unicampspringboot.db.CategoryDao">
-        select * from category where id=#{id};
+    <!--    <insert id="insertCategory" parameterType="String">-->
+    <!--        insert into category (name) values (#{name});-->
+    <!--    </insert>-->
+    <!--    <update id="updateCategory" parameterType="String">-->
+    <!--        update category set name=#{name} where id=#{id};-->
+    <!--    </update>-->
+    <select id="findCategoryById" resultType="com.perfectmatch.unicampspringboot.db.SubCategoryDao">
+        select * from subcategory where id=#{id};
     </select>
-    <select id="findCategoryByName" resultType="com.perfectmatch.unicampspringboot.db.CategoryDao">
-        select * from category where name=#{name};
+    <!--    <select id="findCategoryByName" resultType="com.perfectmatch.unicampspringboot.db.SubCategoryDao">-->
+    <!--        select * from category where name=#{name};-->
+    <!--    </select>-->
+    <select id="listSubCategory" resultType="com.perfectmatch.unicampspringboot.db.SubCategoryDao">
+        select * from subcategory;
     </select>
     <select id="listCategory" resultType="com.perfectmatch.unicampspringboot.db.CategoryDao">
         select * from category;

@@ -1,6 +1,6 @@
 package com.perfectmatch.unicampspringboot.controllers;
 
-import com.perfectmatch.unicampspringboot.db.CategoryDao;
+import com.perfectmatch.unicampspringboot.db.SubCategoryDao;
 import com.perfectmatch.unicampspringboot.db.CourseDao;
 import com.perfectmatch.unicampspringboot.db.Prerequisite;
 import com.perfectmatch.unicampspringboot.services.CategoryServices;
@@ -30,7 +30,7 @@ public class CourseController {
     CategoryServices categoryServices;
 
     static class CourseInsertBody {
-        private final Long category_id;
+        private final Long subcategory_id;
         private final String name;
         private final String provider;
         private final String description;
@@ -40,10 +40,10 @@ public class CourseController {
         private final String video;
         private final String assignment;
 
-        public CourseInsertBody(Long category_id, String name, String provider,
+        public CourseInsertBody(Long subcategory_id, String name, String provider,
                                 String description, Integer difficulty, Integer est_hour,
                                 String website, String video, String assignment) {
-            this.category_id = category_id;
+            this.subcategory_id = subcategory_id;
             this.name = name;
             this.description = description;
             this.provider = provider;
@@ -57,7 +57,7 @@ public class CourseController {
 
     static class CourseUpdateBody {
         private final Long id;
-        private final Long category_id;
+        private final Long subcategory_id;
         private final String name;
         private final String provider;
         private final String description;
@@ -67,11 +67,11 @@ public class CourseController {
         private final String video;
         private final String assignment;
 
-        public CourseUpdateBody(Long id, Long category_id, String name, String provider,
+        public CourseUpdateBody(Long id, Long subcategory_id, String name, String provider,
                                 String description, Integer difficulty, Integer est_hour,
                                 String website, String video, String assignment) {
             this.id = id;
-            this.category_id = category_id;
+            this.subcategory_id = subcategory_id;
             this.name = name;
             this.description = description;
             this.provider = provider;
@@ -91,11 +91,11 @@ public class CourseController {
         if (!JWTUtils.verityAdmin(token)) {
             return ResponseUtils.unavailable();
         }
-        CategoryDao category = categoryServices.getCategoryById(body.category_id);
+        SubCategoryDao category = categoryServices.getSubCategoryById(body.subcategory_id);
         if (category == null) {
             return ResponseUtils.fail("category not exist");
         }
-        courseServices.addCourse(body.category_id, body.name, body.provider,
+        courseServices.addCourse(body.subcategory_id, body.name, body.provider,
                 body.description, body.difficulty, body.est_hour,
                 body.website, body.video, body.assignment);
         return ResponseUtils.success("add");
@@ -113,11 +113,11 @@ public class CourseController {
         if (course == null) {
             return ResponseUtils.fail("there is no such course");
         }
-        CategoryDao category = categoryServices.getCategoryById(body.category_id);
+        SubCategoryDao category = categoryServices.getSubCategoryById(body.subcategory_id);
         if (category == null) {
             return ResponseUtils.fail("category not exist");
         }
-        courseServices.updateCourse(body.id, body.category_id, body.name, body.provider,
+        courseServices.updateCourse(body.id, body.subcategory_id, body.name, body.provider,
                 body.description, body.difficulty, body.est_hour,
                 body.website, body.video, body.assignment);
         return ResponseUtils.success("update");
@@ -149,19 +149,21 @@ public class CourseController {
     @ToString
     static private class CourseListView {
         private Long id = null;
-        private Long category_id = null;
+        private Long subcategory_id = null;
         private String name = null;
         private String provider = null;
         private Integer difficulty = null;
         private Integer est_hour = null;
+        private String description = null;
 
         public CourseListView(CourseDao dao) {
             this.id = dao.getId();
-            this.category_id = dao.getCategory_id();
+            this.subcategory_id = dao.getSubcategory_id();
             this.name = dao.getName();
             this.provider = dao.getProvider();
             this.difficulty = dao.getDifficulty();
             this.est_hour = dao.getEst_hour();
+            this.description = dao.getDescription();
         }
     }
 

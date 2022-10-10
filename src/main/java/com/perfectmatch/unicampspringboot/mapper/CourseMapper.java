@@ -10,11 +10,11 @@ import java.util.List;
 public interface CourseMapper {
     CourseDao findCourseById(Long id);
 
-    void insertCourse(String category_id, String name, String provider,
+    void insertCourse(String subcategory_id, String name, String provider,
                       String description, String difficulty, String est_hour,
                       String website, String video, String assignment);
 
-    void updateCourse(String id, String category_id, String name, String provider,
+    void updateCourse(String id, String subcategory_id, String name, String provider,
                       String description, String difficulty, String est_hour,
                       String website, String video, String assignment);
 

@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 public class CourseDao {
     private Long id;
-    private Long category_id;
+    private Long subcategory_id;
     private String name;
     private String provider;
     private String description;
