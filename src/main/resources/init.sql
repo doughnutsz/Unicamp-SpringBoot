@@ -20,6 +20,7 @@ create table subcategory
     id   BIGINT NOT NULL AUTO_INCREMENT COMMENT '子类别编号',
     category_id BIGINT COMMENT '父类别编号',
     name VARCHAR(100) NOT NULL default '' COMMENT '子类别名',
+    foreign key (category_id) references category (id) on delete set null,
     PRIMARY KEY (id)
 ) ENGINE=INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8MB4;
 
