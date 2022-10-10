@@ -85,6 +85,7 @@ public class CategoryController {
     @GetMapping("/category/list")
     public ResponseEntity<List<Map<String, Object>>> listCategory() {
         //return new ResponseEntity<>(categoryServices.listSubCategory(), HttpStatus.OK);
+
         List<Map<String, Object>> list = new ArrayList<>();
         List<CategoryDao> categories = categoryServices.listCategory();
         List<SubCategoryDao> subCategories = categoryServices.listSubCategory();
