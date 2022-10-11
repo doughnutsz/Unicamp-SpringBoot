@@ -41,12 +41,12 @@ public class CategoryController {
 //    @AllArgsConstructor
 //    @ToString
 //    static class subCategoryView {
-//        private Long sub_category_id;
-//        private String sub_category_name;
+//        private Long subcategory_id;
+//        private String subcategory_name;
 //
 //        public subCategoryView(SubCategoryDao dao) {
-//            this.sub_category_id = dao.getId();
-//            this.sub_category_name = dao.getName();
+//            this.subcategory_id = dao.getId();
+//            this.subcategory_name = dao.getName();
 //        }
 //    }
 //    @Getter
@@ -57,18 +57,18 @@ public class CategoryController {
 //    static class categoryView {
 //        private Long category_id;
 //        private String category_name;
-//        private List<subCategoryView> sub_category;
+//        private List<subCategoryView> subcategory;
 //
 //        public categoryView(CategoryDao dao) {
 //            this.category_id = dao.getId();
 //            this.category_name = dao.getName();
-//            this.sub_category = new ArrayList<>();
+//            this.subcategory = new ArrayList<>();
 //        }
 //    }
     private Map<String, Object> GenSubCategoryView(SubCategoryDao dao) {
         Map<String, Object> map = new HashMap<>();
-        map.put("sub_category_id", dao.getId());
-        map.put("sub_category_name", dao.getName());
+        map.put("subcategory_id", dao.getId());
+        map.put("subcategory_name", dao.getName());
         return map;
     }
 
@@ -77,7 +77,7 @@ public class CategoryController {
         map.put("category_id", dao.getId());
         map.put("category_name", dao.getName());
         List<Map<String, Object>> list = new ArrayList<>();
-        map.put("sub_category", list);
+        map.put("subcategory", list);
         mp.put(dao.getId(), list);
         return map;
     }
