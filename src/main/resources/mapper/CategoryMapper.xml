@@ -7,7 +7,7 @@
     <!--    <update id="updateCategory" parameterType="String">-->
     <!--        update category set name=#{name} where id=#{id};-->
     <!--    </update>-->
-    <select id="findCategoryById" resultType="com.perfectmatch.unicampspringboot.db.SubCategoryDao">
+    <select id="findSubCategoryById" resultType="com.perfectmatch.unicampspringboot.db.SubCategoryDao">
         select * from subcategory where id=#{id};
     </select>
     <!--    <select id="findCategoryByName" resultType="com.perfectmatch.unicampspringboot.db.SubCategoryDao">-->

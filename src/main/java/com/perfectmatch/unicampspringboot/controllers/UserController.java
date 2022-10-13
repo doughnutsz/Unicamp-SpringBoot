@@ -83,17 +83,21 @@ public class UserController {
             map.put("state", false);
             map.put("message", "name and password not match");
             map.put("token", "");
+            map.put("admin", false);
         } else {
             UserDao user = userServices.UserLogin(body.name, body.password);
             if (user == null) {//wrong password maybe
                 map.put("state", false);
                 map.put("message", "name and password not match");
                 map.put("token", "");
+                map.put("admin", false);
             } else {
                 String token = JWTUtils.getLoginToken((user.getId()).toString(), user.getIs_admin() ? "admin" : "");
                 map.put("state", true);
                 map.put("message", "login successfully");
                 map.put("token", token);
+                boolean isAdmin = user.getIs_admin();
+                map.put("admin", isAdmin);
             }
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
