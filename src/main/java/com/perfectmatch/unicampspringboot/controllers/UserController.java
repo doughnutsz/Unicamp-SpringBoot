@@ -118,6 +118,27 @@ public class UserController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
+    @GetMapping("/profile/myprofile")
+    public ResponseEntity<Map<String, Object>> getProfile(
+            @RequestHeader(value = "token") String token
+    ) {
+        Long id;
+        try {
+            id = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
+        } catch (Exception e) {
+            return ResponseUtils.unauthorized();
+        }
+        UserDao user = userServices.GetUserById(id);
+        if (user == null) {//no such userid
+            return ResponseUtils.notFound();
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", user.getId());
+        map.put("name", user.getName());
+        map.put("description", user.getDescription());
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
     @PostMapping("/profile/update")
     public ResponseEntity<Map<String, Object>> updateProfile(
             @RequestHeader(value = "token") String token,
