@@ -2,7 +2,7 @@ package com.perfectmatch.unicampspringboot.db;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -15,5 +15,5 @@ public class CommentDao {
     private Long course_id;
     private Long ref_id;
     private String text;
-    private LocalDateTime time;
+    private Timestamp time;
 }
