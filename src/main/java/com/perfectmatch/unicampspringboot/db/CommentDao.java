@@ -2,6 +2,8 @@ package com.perfectmatch.unicampspringboot.db;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,4 +15,5 @@ public class CommentDao {
     private Long course_id;
     private Long ref_id;
     private String text;
+    private LocalDateTime time;
 }
