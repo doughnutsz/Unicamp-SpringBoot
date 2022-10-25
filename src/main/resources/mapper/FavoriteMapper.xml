@@ -10,7 +10,7 @@
         values (#{user_id},#{course_id});
     </insert>
     <delete id="deleteFavorite" parameterType="String">
-        delete from course where user_id=#{user_id} and course_id=#{course_id};
+        delete from favorite where user_id=#{user_id} and course_id=#{course_id};
     </delete>
     <select id="selectFavoriteByUserId" resultType="Long">
         select course_id from favorite where user_id=#{user_id};
