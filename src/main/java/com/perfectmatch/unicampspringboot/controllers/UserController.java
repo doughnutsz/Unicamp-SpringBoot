@@ -122,7 +122,7 @@ public class UserController {
     public ResponseEntity<Map<String, Object>> getProfile(
             @RequestHeader(value = "token") String token
     ) {
-        Long id;
+        long id;
         try {
             id = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
         } catch (Exception e) {

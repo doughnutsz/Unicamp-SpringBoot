@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.perfectmatch.unicampspringboot.mapper.FavoriteMapper">
+    <select id="getFavorite" resultType="com.perfectmatch.unicampspringboot.db.FavoriteDao">
+        select * from favorite where user_id=#{user_id} and course_id=#{course_id};
+    </select>
+    <insert id="insertFavorite" parameterType="com.perfectmatch.unicampspringboot.db.FavoriteDao"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into favorite (user_id, course_id)
+        values (#{user_id},#{course_id});
+    </insert>
+    <delete id="deleteFavorite" parameterType="String">
+        delete from course where user_id=#{user_id} and course_id=#{course_id};
+    </delete>
+    <select id="selectFavoriteByUserId" resultType="Long">
+        select course_id from favorite where user_id=#{user_id};
+    </select>
+</mapper>

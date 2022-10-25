@@ -5,6 +5,7 @@ import com.perfectmatch.unicampspringboot.db.CourseDao;
 import com.perfectmatch.unicampspringboot.db.Prerequisite;
 import com.perfectmatch.unicampspringboot.services.CategoryServices;
 import com.perfectmatch.unicampspringboot.services.CourseServices;
+import com.perfectmatch.unicampspringboot.utils.CourseListView;
 import com.perfectmatch.unicampspringboot.utils.JWTUtils;
 import com.perfectmatch.unicampspringboot.utils.MyUtils;
 import com.perfectmatch.unicampspringboot.utils.ResponseUtils;
@@ -142,30 +143,7 @@ public class CourseController {
         return ResponseUtils.success("delete");
     }
 
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @ToString
-    static private class CourseListView {
-        private Long id = null;
-        private Long subcategory_id = null;
-        private String name = null;
-        private String provider = null;
-        private Integer difficulty = null;
-        private Integer est_hour = null;
-        private String description = null;
 
-        public CourseListView(CourseDao dao) {
-            this.id = dao.getId();
-            this.subcategory_id = dao.getSubcategory_id();
-            this.name = dao.getName();
-            this.provider = dao.getProvider();
-            this.difficulty = dao.getDifficulty();
-            this.est_hour = dao.getEst_hour();
-            this.description = dao.getDescription();
-        }
-    }
 
     @GetMapping("/course/list")
     public ResponseEntity<List<CourseListView>> listCourse(
