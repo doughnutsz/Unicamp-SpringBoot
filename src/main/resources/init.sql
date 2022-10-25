@@ -49,3 +49,37 @@ create table prerequisite
     foreign key (post_id) references course (id) on delete cascade,
     PRIMARY KEY (id)
 )ENGINE=INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8MB4;
+
+create table favorite
+(
+    id   BIGINT NOT NULL AUTO_INCREMENT COMMENT '收藏编号',
+    user_id BIGINT COMMENT '用户编号',
+    course_id BIGINT COMMENT '课程编号',
+    foreign key (user_id) references user (id) on delete cascade,
+    foreign key (course_id) references course (id) on delete cascade,
+    PRIMARY KEY (id)
+)ENGINE=INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8MB4;
+
+create table grade
+(
+    id   BIGINT NOT NULL AUTO_INCREMENT COMMENT '评分编号',
+    user_id BIGINT COMMENT '用户编号',
+    course_id BIGINT COMMENT '课程编号',
+    rating INT UNSIGNED default 0 COMMENT '评分',
+    foreign key (user_id) references user (id) on delete cascade,
+    foreign key (course_id) references course (id) on delete cascade,
+    PRIMARY KEY (id)
+)ENGINE=INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8MB4;
+
+create table comment
+(
+    id   BIGINT NOT NULL AUTO_INCREMENT COMMENT '评论编号',
+    user_id BIGINT COMMENT '用户编号',
+    course_id BIGINT COMMENT '课程编号',
+    ref_id BIGINT default 0 COMMENT '引用评论编号',
+    text VARCHAR(3000) default '' COMMENT '课程评论',
+    foreign key (user_id) references user (id) on delete cascade,
+    foreign key (course_id) references course (id) on delete cascade,
+    PRIMARY KEY (id)
+)ENGINE=INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8MB4;
+
