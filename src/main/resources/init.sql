@@ -78,6 +78,7 @@ create table comment
     course_id BIGINT COMMENT '课程编号',
     ref_id BIGINT default 0 COMMENT '引用评论编号',
     text VARCHAR(3000) default '' COMMENT '课程评论',
+    `time` timestamp default current_timestamp on update current_timestamp,
     foreign key (user_id) references user (id) on delete cascade,
     foreign key (course_id) references course (id) on delete cascade,
     PRIMARY KEY (id)
