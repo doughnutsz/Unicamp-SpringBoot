@@ -1,14 +1,15 @@
-package com.perfectmatch.unicampspringboot.utils;
+package com.perfectmatch.unicampspringboot.db;
 
-import com.perfectmatch.unicampspringboot.db.CourseDao;
 import lombok.*;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CourseListView {
+public class CourseRecDao implements Serializable {
     private Long id = null;
     private Long subcategory_id = null;
     private String name = null;
@@ -17,7 +18,7 @@ public class CourseListView {
     private Integer est_hour = null;
     private String description = null;
 
-    public CourseListView(CourseDao dao) {
+    public CourseRecDao(CourseDao dao) {
         this.id = dao.getId();
         this.subcategory_id = dao.getSubcategory_id();
         this.name = dao.getName();
@@ -26,5 +27,4 @@ public class CourseListView {
         this.est_hour = dao.getEst_hour();
         this.description = dao.getDescription();
     }
-
 }

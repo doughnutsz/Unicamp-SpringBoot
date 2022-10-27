@@ -2,12 +2,14 @@ package com.perfectmatch.unicampspringboot.db;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Prerequisite {
+public class Prerequisite implements Serializable {
     private Long id;
     private Long preId;
     private Long postId;

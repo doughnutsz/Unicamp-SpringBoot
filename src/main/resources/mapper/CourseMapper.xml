@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.perfectmatch.unicampspringboot.mapper.CourseMapper">
+    <cache type="com.perfectmatch.unicampspringboot.RedisCache"/>
     <select id="findCourseById" resultType="com.perfectmatch.unicampspringboot.db.CourseDao">
         select * from course where id=#{id};
     </select>
@@ -42,4 +43,7 @@
     <delete id="deleteRelatedPrerequisite" parameterType="String">
         delete from prerequisite where pre_id=#{id} or post_id=#{id};
     </delete>
+    <select id="listNew" resultType="com.perfectmatch.unicampspringboot.db.CourseRecDao">
+        select id, subcategory_id, name, provider, description, difficulty, est_hour from course order by id desc limit 4;
+    </select>
 </mapper>

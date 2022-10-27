@@ -5,7 +5,7 @@ import com.perfectmatch.unicampspringboot.db.CourseDao;
 import com.perfectmatch.unicampspringboot.db.Prerequisite;
 import com.perfectmatch.unicampspringboot.services.CategoryServices;
 import com.perfectmatch.unicampspringboot.services.CourseServices;
-import com.perfectmatch.unicampspringboot.utils.CourseListView;
+import com.perfectmatch.unicampspringboot.db.CourseRecDao;
 import com.perfectmatch.unicampspringboot.utils.JWTUtils;
 import com.perfectmatch.unicampspringboot.utils.MyUtils;
 import com.perfectmatch.unicampspringboot.utils.ResponseUtils;
@@ -146,12 +146,12 @@ public class CourseController {
 
 
     @GetMapping("/course/list")
-    public ResponseEntity<List<CourseListView>> listCourse(
+    public ResponseEntity<List<CourseRecDao>> listCourse(
     ) {
         List<CourseDao> courseDaoList = courseServices.listCourse();
-        List<CourseListView> list = new ArrayList<>();
+        List<CourseRecDao> list = new ArrayList<>();
         for (CourseDao i : courseDaoList) {
-            list.add(new CourseListView(i));
+            list.add(new CourseRecDao(i));
         }
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
@@ -239,5 +239,12 @@ public class CourseController {
         }
         courseServices.deletePrerequisite(body.pre_id, body.post_id);
         return ResponseUtils.success("delete");
+    }
+
+    @GetMapping("/recommend/new/main")
+    public ResponseEntity<List<CourseRecDao>> listNewCourse(
+    ) {
+        List<CourseRecDao> courseRecDaoList = courseServices.listNew();
+        return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
     }
 }

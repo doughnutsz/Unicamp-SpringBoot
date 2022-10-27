@@ -1,6 +1,7 @@
 package com.perfectmatch.unicampspringboot.services;
 
 import com.perfectmatch.unicampspringboot.db.CourseDao;
+import com.perfectmatch.unicampspringboot.db.CourseRecDao;
 import com.perfectmatch.unicampspringboot.db.Prerequisite;
 
 import java.util.List;
@@ -31,5 +32,7 @@ public interface CourseServices {
     void deletePrerequisite(Long pre_id, Long post_id);
 
     void deleteRelatedPrerequisite(Long id);
+
+    List<CourseRecDao> listNew();
 
 }

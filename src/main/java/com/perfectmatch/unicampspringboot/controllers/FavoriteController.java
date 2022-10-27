@@ -1,11 +1,11 @@
 package com.perfectmatch.unicampspringboot.controllers;
 
 import com.perfectmatch.unicampspringboot.db.CourseDao;
+import com.perfectmatch.unicampspringboot.db.CourseRecDao;
 import com.perfectmatch.unicampspringboot.db.UserDao;
 import com.perfectmatch.unicampspringboot.services.CourseServices;
 import com.perfectmatch.unicampspringboot.services.FavoriteServices;
 import com.perfectmatch.unicampspringboot.services.UserServices;
-import com.perfectmatch.unicampspringboot.utils.CourseListView;
 import com.perfectmatch.unicampspringboot.utils.JWTUtils;
 import com.perfectmatch.unicampspringboot.utils.ResponseUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +31,11 @@ public class FavoriteController {
     CourseServices courseServices;
 
     @GetMapping("/favorite")
-    public ResponseEntity<List<CourseListView>> listFavoriteCourse(
+    public ResponseEntity<List<CourseRecDao>> listFavoriteCourse(
             @RequestHeader(value = "token") String token
     ) {
         long id;
-        List<CourseListView> ls = new ArrayList<>();
+        List<CourseRecDao> ls = new ArrayList<>();
         try {
             id = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class FavoriteController {
         }
         List<Long> courseIdList = favoriteServices.listUserFavorite(id);
         for (long courseId : courseIdList) {
-            ls.add(new CourseListView(courseServices.getCourseById(courseId)));
+            ls.add(new CourseRecDao(courseServices.getCourseById(courseId)));
         }
         return new ResponseEntity<>(ls, HttpStatus.OK);
     }

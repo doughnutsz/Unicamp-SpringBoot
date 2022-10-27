@@ -2,6 +2,7 @@ package com.perfectmatch.unicampspringboot.db;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CommentDao {
+public class CommentDao implements Serializable {
     private Long id;
     private Long user_id;
     private Long course_id;

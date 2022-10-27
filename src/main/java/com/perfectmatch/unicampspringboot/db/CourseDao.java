@@ -2,12 +2,14 @@ package com.perfectmatch.unicampspringboot.db;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CourseDao {
+public class CourseDao implements Serializable {
     private Long id;
     private Long subcategory_id;
     private String name;

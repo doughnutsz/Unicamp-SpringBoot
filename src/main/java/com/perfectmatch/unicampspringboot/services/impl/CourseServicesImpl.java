@@ -1,6 +1,7 @@
 package com.perfectmatch.unicampspringboot.services.impl;
 
 import com.perfectmatch.unicampspringboot.db.CourseDao;
+import com.perfectmatch.unicampspringboot.db.CourseRecDao;
 import com.perfectmatch.unicampspringboot.db.Prerequisite;
 import com.perfectmatch.unicampspringboot.mapper.CourseMapper;
 import com.perfectmatch.unicampspringboot.services.CourseServices;
@@ -65,5 +66,9 @@ public class CourseServicesImpl implements CourseServices {
 
     public void deleteRelatedPrerequisite(Long id) {
         courseMapper.deleteRelatedPrerequisite(id.toString());
+    }
+
+    public List<CourseRecDao> listNew() {
+        return courseMapper.listNew();
     }
 }
