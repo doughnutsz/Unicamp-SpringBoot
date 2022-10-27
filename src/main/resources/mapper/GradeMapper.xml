@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.perfectmatch.unicampspringboot.mapper.GradeMapper">
+    <select id="getGrade" resultType="com.perfectmatch.unicampspringboot.db.GradeDao">
+        select * from grade where user_id=#{user_id} and course_id=#{course_id};
+    </select>
+    <insert id="insertGrade" parameterType="String">
+        insert into grade (user_id, course_id,rating)
+        values (#{user_id}, #{course_id}, #{rating});
+    </insert>
+    <update id="updateGrade" parameterType="String">
+        update grade set rating=#{rating} where user_id=#{user_id} and course_id=#{course_id};
+    </update>
+    <select id="gradeDetail" resultType="com.perfectmatch.unicampspringboot.utils.GradeDetailView">
+        select rating,count(*) as count from grade where course_id=#{course_id} group by rating;
+    </select>
+</mapper>
