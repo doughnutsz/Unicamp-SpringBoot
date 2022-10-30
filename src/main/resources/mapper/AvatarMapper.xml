@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.perfectmatch.unicampspringboot.mapper.AvatarMapper">
+    <cache type="com.perfectmatch.unicampspringboot.RedisCache"/>
+    <select id="getAvatarById" resultType="com.perfectmatch.unicampspringboot.db.AvatarDao">
+        select * from avatar where id=#{id};
+    </select>
+    <insert id="insertAvatar" parameterType="String">
+        insert into avatar (id, img) values (#{id},#{img});
+    </insert>
+    <update id="updateAvatar" parameterType="String">
+        update avatar set img=#{img} where id=#{id};
+    </update>
+</mapper>
