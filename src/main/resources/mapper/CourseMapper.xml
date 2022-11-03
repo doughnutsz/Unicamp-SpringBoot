@@ -46,4 +46,14 @@
     <select id="listNew" resultType="com.perfectmatch.unicampspringboot.db.CourseRecDao">
         select id, subcategory_id, name, provider, description, difficulty, est_hour from course order by id desc limit 4;
     </select>
+    <select id="listHot" resultType="com.perfectmatch.unicampspringboot.db.CourseRecDao">
+        with hot as ( select course_id, count(*) as num from favorite group by course_id order by count(*) desc limit 4)
+        select course.id, subcategory_id, name, provider, description, difficulty, est_hour from hot left join course on hot.course_id = course.id order by hot.num;
+    </select>
+    <select id="findByIds" resultType="com.perfectmatch.unicampspringboot.db.CourseRecDao">
+        select id, subcategory_id, name, provider, description, difficulty, est_hour from course where id in
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
 </mapper>

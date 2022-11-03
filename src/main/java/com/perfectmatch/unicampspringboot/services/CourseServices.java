@@ -3,6 +3,7 @@ package com.perfectmatch.unicampspringboot.services;
 import com.perfectmatch.unicampspringboot.db.CourseDao;
 import com.perfectmatch.unicampspringboot.db.CourseRecDao;
 import com.perfectmatch.unicampspringboot.db.Prerequisite;
+import org.apache.mahout.cf.taste.common.TasteException;
 
 import java.util.List;
 
@@ -35,4 +36,9 @@ public interface CourseServices {
 
     List<CourseRecDao> listNew();
 
+    List<CourseRecDao> listHot();
+
+    List<CourseRecDao> listRec(Long userId) throws TasteException;
+
+    List<CourseRecDao> listRelated(Long courseId) throws TasteException;
 }

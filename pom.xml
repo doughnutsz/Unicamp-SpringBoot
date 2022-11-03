@@ -55,6 +55,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.mahout</groupId>
+            <artifactId>mahout-mr</artifactId>
+            <version>0.12.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.metarank</groupId>
+            <artifactId>librec-core</artifactId>
+            <version>3.0.0-1</version>
+        </dependency>
     </dependencies>
 
     <build>

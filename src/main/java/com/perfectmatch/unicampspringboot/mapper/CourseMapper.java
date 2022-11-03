@@ -4,6 +4,7 @@ import com.perfectmatch.unicampspringboot.db.CourseDao;
 import com.perfectmatch.unicampspringboot.db.CourseRecDao;
 import com.perfectmatch.unicampspringboot.db.Prerequisite;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,4 +37,8 @@ public interface CourseMapper {
     void deleteRelatedPrerequisite(String id);
 
     List<CourseRecDao> listNew();
+
+    List<CourseRecDao> listHot();
+
+    List<CourseRecDao> findByIds(@Param("ids") List<String> ids);
 }

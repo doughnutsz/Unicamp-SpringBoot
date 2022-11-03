@@ -50,6 +50,16 @@ create table prerequisite
     PRIMARY KEY (id)
 )ENGINE=INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8MB4;
 
+create table graph
+(
+    id   BIGINT NOT NULL AUTO_INCREMENT COMMENT '学习图编号',
+    pre_id BIGINT COMMENT '先修子类别编号',
+    post_id BIGINT COMMENT '后修子类别编号',
+    foreign key (pre_id) references subcategory (id) on delete cascade,
+    foreign key (post_id) references subcategory (id) on delete cascade,
+    PRIMARY KEY (id)
+)ENGINE=INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8MB4;
+
 create table favorite
 (
     id   BIGINT NOT NULL AUTO_INCREMENT COMMENT '收藏编号',
@@ -84,3 +94,10 @@ create table comment
     PRIMARY KEY (id)
 )ENGINE=INNODB AUTO_INCREMENT = 1 DEFAULT CHARSET = UTF8MB4;
 
+create table avatar
+(
+    id BIGINT NOT NULL COMMENT '用户编号',
+    img TEXT NOT NULL COMMENT '用户头像',
+    foreign key (id) references user(id) on delete cascade,
+    primary key (id)
+)ENGINE=INNODB DEFAULT CHARSET = UTF8MB4;

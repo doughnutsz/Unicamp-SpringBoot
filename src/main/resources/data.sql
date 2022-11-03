@@ -12,7 +12,6 @@ values ('Mathematics'),
        ('Artificial Intelligence'),
        ('Data Science');
 
-
 insert into subcategory(category_id, name)
 values (1,'Probability & Statistics'),
        (1,'Calculus'),
@@ -45,6 +44,45 @@ values (1,'Probability & Statistics'),
        (6,'Data Science'),
        (6,'Data Mining'),
        (6,'Information Retrieval');
+
+insert into graph(pre_id, post_id)
+values (2,1),
+       (2,4),
+       (3,5),
+       (4,6),
+       (4,7),
+       (18,7),
+       (7,8),
+       (6,9),
+       (9,10),
+       (18,19),
+       (19,12),
+       (12,11),
+       (12,13),
+       (12,14),
+       (18,15),
+       (12,16),
+       (7,17),
+       (18,20),
+       (12,21),
+       (7,22),
+       (3,22),
+       (18,23),
+       (18,24),
+       (4,24),
+       (1,25),
+       (2,25),
+       (3,25),
+       (18,25),
+       (25,24),
+       (24,26),
+       (24,27),
+       (17,28),
+       (1,29),
+       (29,30),
+       (1,31),
+       (18,31);
+
 
 
 
@@ -320,8 +358,9 @@ values (1,2),
        (5,118),
        (35,119),
        (47,120),
-       (4,120);
-
+       (4,120),
+       (40,41),
+       (4,54);
 
 SET
 foreign_key_checks = 1;

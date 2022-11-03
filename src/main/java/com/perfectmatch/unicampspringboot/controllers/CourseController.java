@@ -9,7 +9,6 @@ import com.perfectmatch.unicampspringboot.db.CourseRecDao;
 import com.perfectmatch.unicampspringboot.utils.JWTUtils;
 import com.perfectmatch.unicampspringboot.utils.MyUtils;
 import com.perfectmatch.unicampspringboot.utils.ResponseUtils;
-import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -247,4 +246,29 @@ public class CourseController {
         List<CourseRecDao> courseRecDaoList = courseServices.listNew();
         return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
     }
+
+    @GetMapping("/recommend/hot/main")
+    public ResponseEntity<List<CourseRecDao>> listHotCourse(
+    ) {
+        List<CourseRecDao> courseRecDaoList = courseServices.listHot();
+        return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/recommend/rec/main")
+    public ResponseEntity<List<CourseRecDao>> listRecCourse(
+            @RequestHeader String token
+    ) throws Exception {
+        Long userId = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
+        List<CourseRecDao> courseRecDaoList = courseServices.listRec(userId);
+        return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/recommend/related")
+    public ResponseEntity<List<CourseRecDao>> listRecCourse(
+            @RequestParam Long id
+    ) throws Exception {
+        List<CourseRecDao> courseRecDaoList = courseServices.listRelated(id);
+        return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
+    }
+
 }

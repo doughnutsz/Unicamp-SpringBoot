@@ -16,4 +16,13 @@
     <select id="selectFavoriteByUserId" resultType="Long">
         select course_id from favorite where user_id=#{user_id};
     </select>
+    <select id="getAll" resultType="com.perfectmatch.unicampspringboot.db.FavoriteDao">
+        select * from favorite;
+    </select>
+    <select id="selectFavoriteByUserIds" resultType="com.perfectmatch.unicampspringboot.db.FavoriteDao">
+        select * from favorite where user_id in
+        <foreach collection="user_ids" item="user_id" index="index" open="(" close=")" separator=",">
+            #{user_id}
+        </foreach>
+    </select>
 </mapper>
