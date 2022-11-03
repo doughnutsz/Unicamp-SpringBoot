@@ -63,6 +63,7 @@ public class UserController {
             map.put("state", false);
             map.put("message", "The username is already taken");
             map.put("token", "");
+            map.put("id", 0);
         } else {
             userServices.UserRegister(body.name, body.password);
             UserDao user = userServices.UserLogin(body.name, body.password);
@@ -70,6 +71,7 @@ public class UserController {
             map.put("state", true);
             map.put("message", "register successfully");
             map.put("token", token);
+            map.put("id", user.getId());
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
@@ -84,6 +86,7 @@ public class UserController {
             map.put("message", "name and password not match");
             map.put("token", "");
             map.put("admin", false);
+            map.put("id", 0);
         } else {
             UserDao user = userServices.UserLogin(body.name, body.password);
             if (user == null) {//wrong password maybe
@@ -91,6 +94,7 @@ public class UserController {
                 map.put("message", "name and password not match");
                 map.put("token", "");
                 map.put("admin", false);
+                map.put("id", 0);
             } else {
                 String token = JWTUtils.getLoginToken((user.getId()).toString(), user.getIs_admin() ? "admin" : "");
                 map.put("state", true);
@@ -98,6 +102,7 @@ public class UserController {
                 map.put("token", token);
                 boolean isAdmin = user.getIs_admin();
                 map.put("admin", isAdmin);
+                map.put("id", user.getId());
             }
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
