@@ -263,9 +263,9 @@ public class CourseController {
         return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
     }
 
-    @GetMapping("/recommend/related")
+    @GetMapping("/recommend/related/{id}")
     public ResponseEntity<List<CourseRecDao>> listRecCourse(
-            @RequestParam Long id
+            @PathVariable(name = "id") Long id
     ) throws Exception {
         List<CourseRecDao> courseRecDaoList = courseServices.listRelated(id);
         return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
