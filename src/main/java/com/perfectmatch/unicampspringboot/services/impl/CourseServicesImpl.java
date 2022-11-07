@@ -62,13 +62,23 @@ public class CourseServicesImpl implements CourseServices {
         return courseMapper.listCourse();
     }
 
-    public List<Long> getPreCourse(Long id) {
-        return courseMapper.getPreCourse(id.toString());
+    public List<CourseRecDao> getPreCourse(Long id) {
+        List<Long> ls = courseMapper.getPreCourse(id.toString());
+        List<CourseRecDao> ret = new ArrayList<>();
+        for (Long it : ls) {
+            ret.add(new CourseRecDao(getCourseById(it)));
+        }
+        return ret;
     }
 
 
-    public List<Long> getPostCourse(Long id) {
-        return courseMapper.getPostCourse(id.toString());
+    public List<CourseRecDao> getPostCourse(Long id) {
+        List<Long> ls = courseMapper.getPostCourse(id.toString());
+        List<CourseRecDao> ret = new ArrayList<>();
+        for (Long it : ls) {
+            ret.add(new CourseRecDao(getCourseById(it)));
+        }
+        return ret;
     }
 
     public Prerequisite getPrerequisite(Long pre_id, Long post_id) {
@@ -111,20 +121,20 @@ public class CourseServicesImpl implements CourseServices {
         DataModel dataModel = new GenericDataModel(fastByIdMap);
         UserSimilarity similarity = new EuclideanDistanceSimilarity(dataModel);
         UserNeighborhood userNeighborhood = new NearestNUserNeighborhood(100, similarity, dataModel);
-        List<String> neighbors = Arrays.stream(userNeighborhood.getUserNeighborhood(userId)).boxed().map(String::valueOf).collect(Collectors.toList());;
+        List<String> neighbors = Arrays.stream(userNeighborhood.getUserNeighborhood(userId)).boxed().map(String::valueOf).collect(Collectors.toList());
         HashMap<Long, Integer> m = new HashMap<>();
         Map<Long, List<FavoriteDao>> mm = favoriteMapper.selectFavoriteByUserIds(neighbors).stream().collect(Collectors.groupingBy(FavoriteDao::getCourse_id));
-        for(Long key : mm.keySet()){
-            if(!courseIds.contains(key)){
-                m.put(key,mm.get(key).size());
+        for (Long key : mm.keySet()) {
+            if (!courseIds.contains(key)) {
+                m.put(key, mm.get(key).size());
             }
         }
         LinkedHashMap<Long, Integer> mmm = MyUtils.sortMap(m);
-        Iterator<Map.Entry<Long, Integer>> it=mmm.entrySet().iterator();
+        Iterator<Map.Entry<Long, Integer>> it = mmm.entrySet().iterator();
         int i = 0;
         List<String> ids = new ArrayList<>();
-        while (it.hasNext() && i < 4){
-            Map.Entry<Long, Integer> entry=it.next();
+        while (it.hasNext() && i < 4) {
+            Map.Entry<Long, Integer> entry = it.next();
             ids.add(String.valueOf(entry.getKey()));
             i++;
         }
