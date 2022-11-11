@@ -99,6 +99,7 @@ public class CourseServicesImpl implements CourseServices {
         FastByIDMap<PreferenceArray> fastByIdMap = new FastByIDMap<>();
         List<FavoriteDao> favoriteDaoList = favoriteMapper.getAll();
         List<Long> courseIds = favoriteMapper.selectFavoriteByUserId(String.valueOf(userId));
+        if (CollectionUtils.isEmpty(courseIds)) return Collections.emptyList();
         favoriteDaoList.stream()
                 .collect(Collectors.groupingBy(FavoriteDao::getUser_id))
                 .values()
@@ -111,7 +112,8 @@ public class CourseServicesImpl implements CourseServices {
         DataModel dataModel = new GenericDataModel(fastByIdMap);
         UserSimilarity similarity = new EuclideanDistanceSimilarity(dataModel);
         UserNeighborhood userNeighborhood = new NearestNUserNeighborhood(100, similarity, dataModel);
-        List<String> neighbors = Arrays.stream(userNeighborhood.getUserNeighborhood(userId)).boxed().map(String::valueOf).collect(Collectors.toList());;
+        List<String> neighbors = Arrays.stream(userNeighborhood.getUserNeighborhood(userId)).boxed().map(String::valueOf).collect(Collectors.toList());
+        if (CollectionUtils.isEmpty(neighbors)) return Collections.emptyList();
         HashMap<Long, Integer> m = new HashMap<>();
         Map<Long, List<FavoriteDao>> mm = favoriteMapper.selectFavoriteByUserIds(neighbors).stream().collect(Collectors.groupingBy(FavoriteDao::getCourse_id));
         for(Long key : mm.keySet()){
