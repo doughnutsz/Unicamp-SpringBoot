@@ -22,9 +22,9 @@ public interface CourseServices {
 
     List<CourseDao> listCourse();
 
-    List<Long> getPreCourse(Long id);
+    List<CourseRecDao> getPreCourse(Long id);
 
-    List<Long> getPostCourse(Long id);
+    List<CourseRecDao> getPostCourse(Long id);
 
     Prerequisite getPrerequisite(Long pre_id, Long post_id);
 

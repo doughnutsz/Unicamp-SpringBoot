@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 @Service
 public class CommentServicesImpl implements CommentServices {
@@ -39,7 +40,9 @@ public class CommentServicesImpl implements CommentServices {
         v.setId(it.getId());
         v.setText(it.getText());
         v.setRef_comment_id(it.getRef_id());
-        v.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(it.getTime()));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
+        v.setTime(format.format(it.getTime()));
         v.setUser_id(it.getUser_id());
         UserDao user = userMapper.findUserById(it.getUser_id());
         v.setUser_name(user.getName());
