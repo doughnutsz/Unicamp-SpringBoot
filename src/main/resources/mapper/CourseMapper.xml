@@ -44,10 +44,10 @@
         delete from prerequisite where pre_id=#{id} or post_id=#{id};
     </delete>
     <select id="listNew" resultType="com.perfectmatch.unicampspringboot.db.CourseRecDao">
-        select id, subcategory_id, name, provider, description, difficulty, est_hour from course order by id desc limit 4;
+        select id, subcategory_id, name, provider, description, difficulty, est_hour from course order by id desc limit 6;
     </select>
     <select id="listHot" resultType="com.perfectmatch.unicampspringboot.db.CourseRecDao">
-        with hot as ( select course_id, count(*) as num from favorite group by course_id order by count(*) desc limit 4)
+        with hot as ( select course_id, count(*) as num from favorite group by course_id order by count(*) desc limit 6)
         select course.id, subcategory_id, name, provider, description, difficulty, est_hour from hot left join course on hot.course_id = course.id order by hot.num;
     </select>
     <select id="findByIds" resultType="com.perfectmatch.unicampspringboot.db.CourseRecDao">

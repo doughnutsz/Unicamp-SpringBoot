@@ -135,7 +135,7 @@ public class CourseServicesImpl implements CourseServices {
         Iterator<Map.Entry<Long, Integer>> it = mmm.entrySet().iterator();
         int i = 0;
         List<String> ids = new ArrayList<>();
-        while (it.hasNext() && i < 4) {
+        while (it.hasNext() && i < 6) {
             Map.Entry<Long, Integer> entry = it.next();
             ids.add(String.valueOf(entry.getKey()));
             i++;
@@ -158,7 +158,7 @@ public class CourseServicesImpl implements CourseServices {
                 .forEach(genericArrayPreference -> fastByIdMap.put(genericArrayPreference[0].getUserID(), new GenericUserPreferenceArray(Arrays.asList(genericArrayPreference))));
         DataModel dataModel = new GenericDataModel(fastByIdMap);
         UserSimilarity similarity = new EuclideanDistanceSimilarity(dataModel);
-        UserNeighborhood userNeighborhood = new NearestNUserNeighborhood(4, similarity, dataModel);
+        UserNeighborhood userNeighborhood = new NearestNUserNeighborhood(6, similarity, dataModel);
         List<String> ids = Arrays.stream(userNeighborhood.getUserNeighborhood(courseId)).boxed().map(String::valueOf).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(ids)) return Collections.emptyList();
         return courseMapper.findByIds(ids);
