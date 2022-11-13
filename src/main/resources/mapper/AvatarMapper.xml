@@ -7,8 +7,8 @@
     </select>
     <insert id="insertAvatar" parameterType="String">
         insert into avatar (id, img)
-        select #{id},#{img}
-        from avatar where not exists(
+        select #{id},#{img} from dual
+        where not exists(
         select * from avatar where
         id=#{id}
         );

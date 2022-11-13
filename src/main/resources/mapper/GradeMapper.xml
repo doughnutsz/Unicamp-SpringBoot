@@ -6,10 +6,10 @@
     </select>
     <insert id="insertGrade" parameterType="String">
         insert into grade (user_id, course_id,rating)
-        select #{user_id}, #{course_id}, #{rating}
-        from grade where not exists(
+        select #{user_id}, #{course_id}, #{rating} from dual
+        where not exists(
         select * from grade where
-        user_id=#{user_id} and course_id=#{course_id};
+        user_id=#{user_id} and course_id=#{course_id}
         );
     </insert>
     <update id="updateGrade" parameterType="String">
