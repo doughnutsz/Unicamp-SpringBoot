@@ -30,20 +30,19 @@ public class GradeController {
     CourseServices courseServices;
 
     @GetMapping("/grade/get/{course_id}")
-    ResponseEntity<Map<String, Object>> GradeDetail(
+    ResponseEntity<Map<String, Object>> getMyGrade(
             @RequestHeader(value = "token") String token,
             @PathVariable(name = "course_id") Long course_id
     ) {
-        long userId = -1;
-        boolean visitor = false;
+        long userId;
         try {
             userId = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
         } catch (Exception e) {
-            visitor = true;
+            return ResponseUtils.unauthorized();
         }
         UserDao user = userServices.GetUserById(userId);
         if (user == null) {//no such userid
-            visitor = true;
+            return ResponseUtils.notFound();
         }
         CourseDao course = courseServices.getCourseById(course_id);
         if (course == null) {//no such course
@@ -51,11 +50,21 @@ public class GradeController {
         }
         Map<String, Object> map = new HashMap<>();
         Long myRating = 0L;
-        if (!visitor) {
-            GradeDao dao = gradeServices.getMyGrade(userId, course_id);
-            if (dao != null) myRating = dao.getRating();
-        }
+        GradeDao dao = gradeServices.getMyGrade(userId, course_id);
+        if (dao != null) myRating = dao.getRating();
         map.put("my_rating", myRating);
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @GetMapping("/grade/detail/{course_id}")
+    ResponseEntity<Map<String, Object>> GradeDetail(
+            @PathVariable(name = "course_id") Long course_id
+    ) {
+        CourseDao course = courseServices.getCourseById(course_id);
+        if (course == null) {//no such course
+            return ResponseUtils.notFound();
+        }
+        Map<String, Object> map = new HashMap<>();
         List<Long> rating_detail = gradeServices.getGradeDetail(course_id);
         map.put("rating_detail", rating_detail);
         return new ResponseEntity<>(map, HttpStatus.OK);
