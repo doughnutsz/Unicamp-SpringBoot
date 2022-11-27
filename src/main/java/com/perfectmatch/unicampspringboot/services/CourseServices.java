@@ -1,6 +1,7 @@
 package com.perfectmatch.unicampspringboot.services;
 
 import com.perfectmatch.unicampspringboot.db.CourseDao;
+import com.perfectmatch.unicampspringboot.db.CourseDaoWithGrade;
 import com.perfectmatch.unicampspringboot.db.CourseRecDao;
 import com.perfectmatch.unicampspringboot.db.Prerequisite;
 import org.apache.mahout.cf.taste.common.TasteException;
@@ -41,4 +42,6 @@ public interface CourseServices {
     List<CourseRecDao> listRec(Long userId) throws TasteException;
 
     List<CourseRecDao> listRelated(Long courseId) throws TasteException;
+
+    CourseDaoWithGrade getCourseWithGradeById(Long id);
 }

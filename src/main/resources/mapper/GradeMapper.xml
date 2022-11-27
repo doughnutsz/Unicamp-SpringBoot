@@ -4,6 +4,9 @@
     <select id="getGrade" resultType="com.perfectmatch.unicampspringboot.db.GradeDao">
         select * from grade where user_id=#{user_id} and course_id=#{course_id};
     </select>
+    <select id="getRating" resultType="Integer">
+        select rating from grade where course_id=#{course_id};
+    </select>
     <insert id="insertGrade" parameterType="String">
         insert into grade (user_id, course_id,rating)
         values (#{user_id}, #{course_id}, #{rating});

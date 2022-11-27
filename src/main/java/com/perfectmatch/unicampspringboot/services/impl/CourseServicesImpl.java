@@ -1,12 +1,10 @@
 package com.perfectmatch.unicampspringboot.services.impl;
 
-import com.perfectmatch.unicampspringboot.db.CourseDao;
-import com.perfectmatch.unicampspringboot.db.CourseRecDao;
-import com.perfectmatch.unicampspringboot.db.FavoriteDao;
-import com.perfectmatch.unicampspringboot.db.Prerequisite;
+import com.perfectmatch.unicampspringboot.db.*;
 import com.perfectmatch.unicampspringboot.mapper.CourseMapper;
 import com.perfectmatch.unicampspringboot.mapper.FavoriteMapper;
 import com.perfectmatch.unicampspringboot.services.CourseServices;
+import com.perfectmatch.unicampspringboot.services.GradeServices;
 import com.perfectmatch.unicampspringboot.utils.MyUtils;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
@@ -34,8 +32,18 @@ public class CourseServicesImpl implements CourseServices {
     @Autowired
     FavoriteMapper favoriteMapper;
 
+    @Autowired
+    GradeServices gradeServices;
+
     public CourseDao getCourseById(Long id) {
         return courseMapper.findCourseById(id);
+    }
+
+    public CourseDaoWithGrade getCourseWithGradeById(Long id) {
+        CourseDao courseDao = courseMapper.findCourseById(id);
+        CourseDaoWithGrade courseDaoWithGrade = new CourseDaoWithGrade(courseDao);
+        courseDaoWithGrade.setRatings(gradeServices.getGradeDetail(id));
+        return courseDaoWithGrade;
     }
 
     public void addCourse(Long subcategory_id, String name, String provider,

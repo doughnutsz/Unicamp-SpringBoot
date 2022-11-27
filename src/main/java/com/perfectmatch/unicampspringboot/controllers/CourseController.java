@@ -1,11 +1,8 @@
 package com.perfectmatch.unicampspringboot.controllers;
 
-import com.perfectmatch.unicampspringboot.db.SubCategoryDao;
-import com.perfectmatch.unicampspringboot.db.CourseDao;
-import com.perfectmatch.unicampspringboot.db.Prerequisite;
+import com.perfectmatch.unicampspringboot.db.*;
 import com.perfectmatch.unicampspringboot.services.CategoryServices;
 import com.perfectmatch.unicampspringboot.services.CourseServices;
-import com.perfectmatch.unicampspringboot.db.CourseRecDao;
 import com.perfectmatch.unicampspringboot.utils.JWTUtils;
 import com.perfectmatch.unicampspringboot.utils.MyUtils;
 import com.perfectmatch.unicampspringboot.utils.ResponseUtils;
@@ -159,11 +156,11 @@ public class CourseController {
     public ResponseEntity<Map<String, Object>> courseInfo(
             @PathVariable(name = "id") Long id
     ) {
-        CourseDao courseDao = courseServices.getCourseById(id);
-        if (courseDao == null) {
+        CourseDaoWithGrade courseDaoWithGrade = courseServices.getCourseWithGradeById(id);
+        if (courseDaoWithGrade == null) {
             return ResponseUtils.notFound();
         }
-        return new ResponseEntity<>(MyUtils.Object2Map(courseDao), HttpStatus.OK);
+        return new ResponseEntity<>(MyUtils.Object2Map(courseDaoWithGrade), HttpStatus.OK);
     }
 
     @GetMapping("/course/relation/{id}")
