@@ -14,13 +14,13 @@ public class FavoriteServiceImpl implements FavoriteServices {
     FavoriteMapper favoriteMapper;
 
     public void updateFavorite(Long user_id, Long course_id, Boolean is_favorite) {
-        FavoriteDao dao = favoriteMapper.getFavorite(user_id.toString(), course_id.toString());
-        if (dao == null && is_favorite) {
+        FavoriteDao dao;
+        if (is_favorite) {
             dao = new FavoriteDao();
             dao.setCourse_id(course_id);
             dao.setUser_id(user_id);
             favoriteMapper.insertFavorite(dao);
-        } else if (dao != null && !is_favorite) {
+        } else {
             favoriteMapper.deleteFavorite(user_id.toString(), course_id.toString());
         }
     }

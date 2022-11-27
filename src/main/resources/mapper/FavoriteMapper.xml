@@ -8,7 +8,11 @@
     <insert id="insertFavorite" parameterType="com.perfectmatch.unicampspringboot.db.FavoriteDao"
             useGeneratedKeys="true" keyProperty="id">
         insert into favorite (user_id, course_id)
-        values (#{user_id},#{course_id});
+        select #{user_id},#{course_id} from dual
+        where not exists(
+        select * from favorite
+        where user_id= #{user_id} and course_id=#{course_id}
+        );
     </insert>
     <delete id="deleteFavorite" parameterType="String">
         delete from favorite where user_id=#{user_id} and course_id=#{course_id};
