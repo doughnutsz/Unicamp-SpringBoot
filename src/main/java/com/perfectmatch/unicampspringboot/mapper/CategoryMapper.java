@@ -1,6 +1,7 @@
 package com.perfectmatch.unicampspringboot.mapper;
 
 import com.perfectmatch.unicampspringboot.db.CategoryDao;
+import com.perfectmatch.unicampspringboot.db.CourseDao;
 import com.perfectmatch.unicampspringboot.db.SubCategoryDao;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,4 +20,6 @@ public interface CategoryMapper {
     List<CategoryDao> listCategory();
 
     List<SubCategoryDao> listSubCategory();
+
+    Long getCategoryId(Long subcategory_id);
 }

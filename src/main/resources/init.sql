@@ -101,3 +101,7 @@ create table avatar
     foreign key (id) references user(id) on delete cascade,
     primary key (id)
 )ENGINE=INNODB DEFAULT CHARSET = UTF8MB4;
+
+ALTER TABLE course add fulltext (name, provider, description);
+
+SELECT * FROM course WHERE MATCH (name, provider, description) AGAINST ('database' IN NATURAL LANGUAGE MODE);

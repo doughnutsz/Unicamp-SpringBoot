@@ -7,6 +7,7 @@ import com.perfectmatch.unicampspringboot.db.Prerequisite;
 import org.apache.mahout.cf.taste.common.TasteException;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CourseServices {
     CourseDao getCourseById(Long id);
@@ -44,4 +45,6 @@ public interface CourseServices {
     List<CourseRecDao> listRelated(Long courseId) throws TasteException;
 
     CourseDaoWithGrade getCourseWithGradeById(Long id);
+
+    List<CourseDaoWithGrade> getCard(Map<String, Object> map);
 }

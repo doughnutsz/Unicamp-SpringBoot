@@ -268,4 +268,12 @@ public class CourseController {
         return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
     }
 
+    @PostMapping("/course/card")
+    public ResponseEntity<List<CourseDaoWithGrade>> getCard(
+            @RequestBody Map<String, Object> body
+    ) {
+        List<CourseDaoWithGrade> list = courseServices.getCard(body);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
 }

@@ -56,4 +56,7 @@
             #{id}
         </foreach>
     </select>
+    <select id="findByKeyword" parameterType="String" resultType="com.perfectmatch.unicampspringboot.db.CourseDao">
+        select * from course where match (name, provider, description) against (#{keyword} in natural language mode);
+    </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.perfectmatch.unicampspringboot.services.impl;
 
 import com.perfectmatch.unicampspringboot.db.*;
+import com.perfectmatch.unicampspringboot.mapper.CategoryMapper;
 import com.perfectmatch.unicampspringboot.mapper.CourseMapper;
 import com.perfectmatch.unicampspringboot.mapper.FavoriteMapper;
 import com.perfectmatch.unicampspringboot.services.CourseServices;
@@ -34,6 +35,9 @@ public class CourseServicesImpl implements CourseServices {
 
     @Autowired
     GradeServices gradeServices;
+
+    @Autowired
+    CategoryMapper categoryMapper;
 
     public CourseDao getCourseById(Long id) {
         return courseMapper.findCourseById(id);
@@ -170,5 +174,85 @@ public class CourseServicesImpl implements CourseServices {
         List<String> ids = Arrays.stream(userNeighborhood.getUserNeighborhood(courseId)).boxed().map(String::valueOf).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(ids)) return Collections.emptyList();
         return courseMapper.findByIds(ids);
+    }
+
+    public List<CourseDaoWithGrade> getCard(Map<String, Object> map){
+        List<CourseDao> courseDaoList = Collections.emptyList();
+        if(map.get("key")!=null){
+            courseDaoList = courseMapper.findByKeyword((String)map.get("key"));
+        }
+        else{
+            courseDaoList = courseMapper.listCourse();
+        }
+        if(map.get("filter") != null){
+            Map<String, Object> filter = (Map<String, Object>) map.get("filter");
+            if(filter.get("difficulty") != null){
+                courseDaoList = courseDaoList.stream().filter(x -> filter.get("difficulty") == x.getDifficulty()).collect(Collectors.toList());
+            }
+            if(filter.get("subcategory_ids") != null){
+                ArrayList<Integer> arrayList = (ArrayList<Integer>)filter.get("subcategory_ids");
+                courseDaoList = courseDaoList.stream().filter(x -> arrayList.contains(x.getSubcategory_id().intValue())).collect(Collectors.toList());
+            }
+        }
+        Boolean ascending = (Boolean) map.get("ascending");
+        String sort = "";
+        if(map.get("sort") != null){
+            sort = (String) map.get("sort");
+        }
+        if(sort.equals("alphabet")){
+            if(ascending){
+                courseDaoList = courseDaoList.stream().sorted(Comparator.comparing(CourseDao::getName, Comparator.naturalOrder())).collect(Collectors.toList());
+            }
+            else{
+                courseDaoList = courseDaoList.stream().sorted(Comparator.comparing(CourseDao::getName, Comparator.reverseOrder())).collect(Collectors.toList());
+            }
+        }
+        if(sort.equals("time")){
+            if(ascending){
+                courseDaoList = courseDaoList.stream().sorted(Comparator.comparing(CourseDao::getId, Comparator.naturalOrder())).collect(Collectors.toList());
+            }
+            else{
+                courseDaoList = courseDaoList.stream().sorted(Comparator.comparing(CourseDao::getId, Comparator.reverseOrder())).collect(Collectors.toList());
+            }
+        }
+        if(sort.equals("difficulty")){
+            if(ascending){
+                courseDaoList = courseDaoList.stream().sorted(Comparator.comparing(CourseDao::getDifficulty, Comparator.naturalOrder())).collect(Collectors.toList());
+            }
+            else{
+                courseDaoList = courseDaoList.stream().sorted(Comparator.comparing(CourseDao::getDifficulty, Comparator.reverseOrder())).collect(Collectors.toList());
+            }
+        }
+        List<CourseDaoWithGrade> courseDaoWithGradeList = courseDaoList.stream().map(x -> {CourseDaoWithGrade courseDaoWithGrade = new CourseDaoWithGrade(x); courseDaoWithGrade.setRatings(gradeServices.getGradeDetail(x.getId())); return courseDaoWithGrade;}).collect(Collectors.toList());
+
+        class RatingComparator implements Comparator<CourseDaoWithGrade> {
+            @Override
+            public int compare(CourseDaoWithGrade a, CourseDaoWithGrade b) {
+                List<Long> listA = a.getRatings();
+                double gradeA = (double)(listA.get(0) + listA.get(1)*2 + listA.get(2)*3 + listA.get(3)*4 + listA.get(4)*5)/(listA.get(0) + listA.get(1) + listA.get(2) + listA.get(3) + listA.get(4));
+                List<Long> listB = b.getRatings();
+                double gradeB = (double)(listB.get(0) + listB.get(1)*2 + listB.get(2)*3 + listB.get(3)*4 + listB.get(4)*5)/(listB.get(0) + listB.get(1) + listB.get(2) + listB.get(3) + listB.get(4));
+                return (int) (gradeA - gradeB);
+            }
+        }
+
+        if(sort.equals("rating")){
+            if(ascending){
+                Collections.sort(courseDaoWithGradeList, new RatingComparator());
+            }
+            else{
+                Collections.sort(courseDaoWithGradeList, new RatingComparator());
+                Collections.reverse(courseDaoWithGradeList);
+            }
+        }
+        if(map.get("range")!=null){
+            Integer from = ((Map<String, Integer>) map.get("range")).get("from");
+            Integer size = ((Map<String, Integer>) map.get("range")).get("size");
+            courseDaoWithGradeList = courseDaoWithGradeList.subList(from, from + size);
+        }
+        if(!(boolean) map.get("description")){
+            courseDaoWithGradeList.forEach((CourseDaoWithGrade c) -> c.setDescription(""));
+        }
+        return courseDaoWithGradeList;
     }
 }

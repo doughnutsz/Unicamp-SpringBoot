@@ -20,4 +20,9 @@
     <select id="listCategory" resultType="com.perfectmatch.unicampspringboot.db.CategoryDao">
         select * from category;
     </select>
+    <select id="getCategoryId" resultType="Long">
+        select category.id from category where category.id = (
+            select subcategory.category_id from subcategory where subcategory.id = #{subcategory_id}
+            )
+    </select>
 </mapper>
