@@ -110,11 +110,15 @@ public class CourseServicesImpl implements CourseServices {
     }
 
     public List<CourseRecDao> listNew() {
-        return courseMapper.listNew();
+        List<CourseRecDao> courseRecDaoList =  courseMapper.listNew();
+        courseRecDaoList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        return courseRecDaoList;
     }
 
     public List<CourseRecDao> listHot() {
-        return courseMapper.listHot();
+        List<CourseRecDao> courseRecDaoList =  courseMapper.listHot();
+        courseRecDaoList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        return courseRecDaoList;
     }
 
     public List<CourseRecDao> listRec(Long userId) throws TasteException {
@@ -153,7 +157,9 @@ public class CourseServicesImpl implements CourseServices {
             i++;
         }
         if (CollectionUtils.isEmpty(ids)) return Collections.emptyList();
-        return courseMapper.findByIds(ids);
+        List<CourseRecDao> courseRecDaoList = courseMapper.findByIds(ids);
+        courseRecDaoList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        return courseRecDaoList;
     }
 
     public List<CourseRecDao> listRelated(Long courseId) throws TasteException {
@@ -173,11 +179,13 @@ public class CourseServicesImpl implements CourseServices {
         UserNeighborhood userNeighborhood = new NearestNUserNeighborhood(6, similarity, dataModel);
         List<String> ids = Arrays.stream(userNeighborhood.getUserNeighborhood(courseId)).boxed().map(String::valueOf).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(ids)) return Collections.emptyList();
-        return courseMapper.findByIds(ids);
+        List<CourseRecDao> courseRecDaoList = courseMapper.findByIds(ids);
+        courseRecDaoList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        return courseRecDaoList;
     }
 
     public List<CourseDaoWithGrade> getCard(Map<String, Object> map){
-        List<CourseDao> courseDaoList = Collections.emptyList();
+        List<CourseDao> courseDaoList;
         if(map.get("key")!=null){
             courseDaoList = courseMapper.findByKeyword((String)map.get("key"));
         }

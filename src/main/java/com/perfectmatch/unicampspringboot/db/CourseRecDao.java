@@ -3,6 +3,7 @@ package com.perfectmatch.unicampspringboot.db;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +18,8 @@ public class CourseRecDao implements Serializable {
     private Integer difficulty = null;
     private Integer est_hour = null;
     private String description = null;
+
+    private List<Long> ratings;
 
     public CourseRecDao(CourseDao dao) {
         this.id = dao.getId();
