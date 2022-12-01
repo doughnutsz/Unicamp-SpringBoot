@@ -3,6 +3,7 @@ package com.perfectmatch.unicampspringboot.controllers;
 import com.perfectmatch.unicampspringboot.db.*;
 import com.perfectmatch.unicampspringboot.services.CategoryServices;
 import com.perfectmatch.unicampspringboot.services.CourseServices;
+import com.perfectmatch.unicampspringboot.services.GradeServices;
 import com.perfectmatch.unicampspringboot.utils.JWTUtils;
 import com.perfectmatch.unicampspringboot.utils.MyUtils;
 import com.perfectmatch.unicampspringboot.utils.ResponseUtils;
@@ -25,6 +26,9 @@ public class CourseController {
     CourseServices courseServices;
     @Autowired
     CategoryServices categoryServices;
+
+    @Autowired
+    GradeServices gradeServices;
 
     static class CourseInsertBody {
         private final Long subcategory_id;
@@ -172,7 +176,11 @@ public class CourseController {
             return ResponseUtils.notFound();
         }
         Map<String, Object> map = new HashMap<>();
-        map.put("pre", courseServices.getPreCourse(id));
+        List<CourseRecDao> courseRecDaoPreList = courseServices.getPreCourse(id);
+        courseRecDaoPreList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        map.put("pre", courseRecDaoPreList);
+        List<CourseRecDao> courseRecDaoPostList = courseServices.getPostCourse(id);
+        courseRecDaoPostList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
         map.put("post", courseServices.getPostCourse(id));
         return new ResponseEntity<>(map, HttpStatus.OK);
     }

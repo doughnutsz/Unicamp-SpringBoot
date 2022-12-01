@@ -5,6 +5,7 @@ import com.perfectmatch.unicampspringboot.db.CourseRecDao;
 import com.perfectmatch.unicampspringboot.db.UserDao;
 import com.perfectmatch.unicampspringboot.services.CourseServices;
 import com.perfectmatch.unicampspringboot.services.FavoriteServices;
+import com.perfectmatch.unicampspringboot.services.GradeServices;
 import com.perfectmatch.unicampspringboot.services.UserServices;
 import com.perfectmatch.unicampspringboot.utils.JWTUtils;
 import com.perfectmatch.unicampspringboot.utils.ResponseUtils;
@@ -30,6 +31,9 @@ public class FavoriteController {
     @Autowired
     CourseServices courseServices;
 
+    @Autowired
+    GradeServices gradeServices;
+
     @GetMapping("/favorite")
     public ResponseEntity<List<CourseRecDao>> listFavoriteCourse(
             @RequestHeader(value = "token") String token
@@ -49,6 +53,7 @@ public class FavoriteController {
         for (long courseId : courseIdList) {
             ls.add(new CourseRecDao(courseServices.getCourseById(courseId)));
         }
+        ls.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
         return new ResponseEntity<>(ls, HttpStatus.OK);
     }
 
