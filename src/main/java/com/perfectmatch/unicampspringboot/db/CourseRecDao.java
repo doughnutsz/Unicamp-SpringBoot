@@ -19,7 +19,7 @@ public class CourseRecDao implements Serializable {
     private Integer est_hour = null;
     private String description = null;
 
-    private List<Long> ratings;
+    private List<Long> rating_detail;
 
     public CourseRecDao(CourseDao dao) {
         this.id = dao.getId();

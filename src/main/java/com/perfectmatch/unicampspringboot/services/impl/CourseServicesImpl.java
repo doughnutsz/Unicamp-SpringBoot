@@ -46,7 +46,7 @@ public class CourseServicesImpl implements CourseServices {
     public CourseDaoWithGrade getCourseWithGradeById(Long id) {
         CourseDao courseDao = courseMapper.findCourseById(id);
         CourseDaoWithGrade courseDaoWithGrade = new CourseDaoWithGrade(courseDao);
-        courseDaoWithGrade.setRatings(gradeServices.getGradeDetail(id));
+        courseDaoWithGrade.setRating_detail(gradeServices.getGradeDetail(id));
         return courseDaoWithGrade;
     }
 
@@ -111,13 +111,13 @@ public class CourseServicesImpl implements CourseServices {
 
     public List<CourseRecDao> listNew() {
         List<CourseRecDao> courseRecDaoList =  courseMapper.listNew();
-        courseRecDaoList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        courseRecDaoList.forEach((CourseRecDao c) -> c.setRating_detail(gradeServices.getGradeDetail(c.getId())));
         return courseRecDaoList;
     }
 
     public List<CourseRecDao> listHot() {
         List<CourseRecDao> courseRecDaoList =  courseMapper.listHot();
-        courseRecDaoList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        courseRecDaoList.forEach((CourseRecDao c) -> c.setRating_detail(gradeServices.getGradeDetail(c.getId())));
         return courseRecDaoList;
     }
 
@@ -158,7 +158,7 @@ public class CourseServicesImpl implements CourseServices {
         }
         if (CollectionUtils.isEmpty(ids)) return Collections.emptyList();
         List<CourseRecDao> courseRecDaoList = courseMapper.findByIds(ids);
-        courseRecDaoList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        courseRecDaoList.forEach((CourseRecDao c) -> c.setRating_detail(gradeServices.getGradeDetail(c.getId())));
         return courseRecDaoList;
     }
 
@@ -180,7 +180,7 @@ public class CourseServicesImpl implements CourseServices {
         List<String> ids = Arrays.stream(userNeighborhood.getUserNeighborhood(courseId)).boxed().map(String::valueOf).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(ids)) return Collections.emptyList();
         List<CourseRecDao> courseRecDaoList = courseMapper.findByIds(ids);
-        courseRecDaoList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        courseRecDaoList.forEach((CourseRecDao c) -> c.setRating_detail(gradeServices.getGradeDetail(c.getId())));
         return courseRecDaoList;
     }
 
@@ -231,14 +231,14 @@ public class CourseServicesImpl implements CourseServices {
                 courseDaoList = courseDaoList.stream().sorted(Comparator.comparing(CourseDao::getDifficulty, Comparator.reverseOrder())).collect(Collectors.toList());
             }
         }
-        List<CourseDaoWithGrade> courseDaoWithGradeList = courseDaoList.stream().map(x -> {CourseDaoWithGrade courseDaoWithGrade = new CourseDaoWithGrade(x); courseDaoWithGrade.setRatings(gradeServices.getGradeDetail(x.getId())); return courseDaoWithGrade;}).collect(Collectors.toList());
+        List<CourseDaoWithGrade> courseDaoWithGradeList = courseDaoList.stream().map(x -> {CourseDaoWithGrade courseDaoWithGrade = new CourseDaoWithGrade(x); courseDaoWithGrade.setRating_detail(gradeServices.getGradeDetail(x.getId())); return courseDaoWithGrade;}).collect(Collectors.toList());
 
         class RatingComparator implements Comparator<CourseDaoWithGrade> {
             @Override
             public int compare(CourseDaoWithGrade a, CourseDaoWithGrade b) {
-                List<Long> listA = a.getRatings();
+                List<Long> listA = a.getRating_detail();
                 double gradeA = (double)(listA.get(0) + listA.get(1)*2 + listA.get(2)*3 + listA.get(3)*4 + listA.get(4)*5)/(listA.get(0) + listA.get(1) + listA.get(2) + listA.get(3) + listA.get(4));
-                List<Long> listB = b.getRatings();
+                List<Long> listB = b.getRating_detail();
                 double gradeB = (double)(listB.get(0) + listB.get(1)*2 + listB.get(2)*3 + listB.get(3)*4 + listB.get(4)*5)/(listB.get(0) + listB.get(1) + listB.get(2) + listB.get(3) + listB.get(4));
                 return (int) (gradeA - gradeB);
             }

@@ -177,10 +177,10 @@ public class CourseController {
         }
         Map<String, Object> map = new HashMap<>();
         List<CourseRecDao> courseRecDaoPreList = courseServices.getPreCourse(id);
-        courseRecDaoPreList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        courseRecDaoPreList.forEach((CourseRecDao c) -> c.setRating_detail(gradeServices.getGradeDetail(c.getId())));
         map.put("pre", courseRecDaoPreList);
         List<CourseRecDao> courseRecDaoPostList = courseServices.getPostCourse(id);
-        courseRecDaoPostList.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        courseRecDaoPostList.forEach((CourseRecDao c) -> c.setRating_detail(gradeServices.getGradeDetail(c.getId())));
         map.put("post", courseServices.getPostCourse(id));
         return new ResponseEntity<>(map, HttpStatus.OK);
     }

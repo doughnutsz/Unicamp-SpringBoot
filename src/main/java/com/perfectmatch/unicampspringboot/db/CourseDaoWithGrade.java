@@ -22,7 +22,7 @@ public class CourseDaoWithGrade implements Serializable {
     private String video;
     private String assignment;
 
-    private List<Long> ratings;
+    private List<Long> rating_detail;
 
     public CourseDaoWithGrade(CourseDao dao){
         this.id = dao.getId();

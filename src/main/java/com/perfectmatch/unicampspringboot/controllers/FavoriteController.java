@@ -53,7 +53,7 @@ public class FavoriteController {
         for (long courseId : courseIdList) {
             ls.add(new CourseRecDao(courseServices.getCourseById(courseId)));
         }
-        ls.forEach((CourseRecDao c) -> c.setRatings(gradeServices.getGradeDetail(c.getId())));
+        ls.forEach((CourseRecDao c) -> c.setRating_detail(gradeServices.getGradeDetail(c.getId())));
         return new ResponseEntity<>(ls, HttpStatus.OK);
     }
 
