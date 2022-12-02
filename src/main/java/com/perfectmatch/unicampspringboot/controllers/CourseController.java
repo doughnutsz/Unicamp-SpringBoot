@@ -280,7 +280,9 @@ public class CourseController {
     }
 
     @GetMapping("/course/number")
-    public ResponseEntity<Integer> getNumber() {
-        return new ResponseEntity<>(courseServices.getNumber(), HttpStatus.OK);
+    public ResponseEntity<Map<String, Object>> getNumber() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("course_number",courseServices.getNumber());
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }
