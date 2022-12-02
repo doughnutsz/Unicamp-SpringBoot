@@ -44,4 +44,6 @@ public interface CourseMapper {
     List<CourseRecDao> findByIds(@Param("ids") List<String> ids);
 
     List<CourseDao> findByKeyword(String keyword);
+
+    Integer getNumber();
 }

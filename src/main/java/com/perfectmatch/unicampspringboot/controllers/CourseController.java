@@ -248,15 +248,13 @@ public class CourseController {
     @GetMapping("/recommend/new/main")
     public ResponseEntity<List<CourseRecDao>> listNewCourse(
     ) {
-        List<CourseRecDao> courseRecDaoList = courseServices.listNew();
-        return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
+        return new ResponseEntity<>(courseServices.listNew(), HttpStatus.OK);
     }
 
     @GetMapping("/recommend/hot/main")
     public ResponseEntity<List<CourseRecDao>> listHotCourse(
     ) {
-        List<CourseRecDao> courseRecDaoList = courseServices.listHot();
-        return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
+        return new ResponseEntity<>(courseServices.listHot(), HttpStatus.OK);
     }
 
     @GetMapping("/recommend/rec/main")
@@ -264,24 +262,25 @@ public class CourseController {
             @RequestHeader String token
     ) throws Exception {
         Long userId = Long.parseLong(JWTUtils.verify(token).getClaim("id").asString());
-        List<CourseRecDao> courseRecDaoList = courseServices.listRec(userId);
-        return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
+        return new ResponseEntity<>(courseServices.listRec(userId), HttpStatus.OK);
     }
 
     @GetMapping("/recommend/related/{id}")
     public ResponseEntity<List<CourseRecDao>> listRecCourse(
             @PathVariable(name = "id") Long id
     ) throws Exception {
-        List<CourseRecDao> courseRecDaoList = courseServices.listRelated(id);
-        return new ResponseEntity<>(courseRecDaoList, HttpStatus.OK);
+        return new ResponseEntity<>(courseServices.listRelated(id), HttpStatus.OK);
     }
 
     @PostMapping("/course/card")
     public ResponseEntity<List<CourseDaoWithGrade>> getCard(
             @RequestBody Map<String, Object> body
     ) {
-        List<CourseDaoWithGrade> list = courseServices.getCard(body);
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>(courseServices.getCard(body), HttpStatus.OK);
     }
 
+    @GetMapping("/course/number")
+    public ResponseEntity<Integer> getNumber() {
+        return new ResponseEntity<>(courseServices.getNumber(), HttpStatus.OK);
+    }
 }

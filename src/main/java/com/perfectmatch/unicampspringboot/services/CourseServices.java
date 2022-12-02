@@ -47,4 +47,6 @@ public interface CourseServices {
     CourseDaoWithGrade getCourseWithGradeById(Long id);
 
     List<CourseDaoWithGrade> getCard(Map<String, Object> map);
+
+    Integer getNumber();
 }

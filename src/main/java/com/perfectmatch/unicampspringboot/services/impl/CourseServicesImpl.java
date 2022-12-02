@@ -263,4 +263,8 @@ public class CourseServicesImpl implements CourseServices {
         }
         return courseDaoWithGradeList;
     }
+
+    public Integer getNumber(){
+        return courseMapper.getNumber();
+    }
 }
