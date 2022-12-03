@@ -153,6 +153,7 @@ public class CourseController {
         for (CourseDao i : courseDaoList) {
             list.add(new CourseRecDao(i));
         }
+        list.forEach((CourseRecDao c) -> c.setRating_detail(gradeServices.getGradeDetail(c.getId())));
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -181,7 +182,7 @@ public class CourseController {
         map.put("pre", courseRecDaoPreList);
         List<CourseRecDao> courseRecDaoPostList = courseServices.getPostCourse(id);
         courseRecDaoPostList.forEach((CourseRecDao c) -> c.setRating_detail(gradeServices.getGradeDetail(c.getId())));
-        map.put("post", courseServices.getPostCourse(id));
+        map.put("post", courseRecDaoPostList);
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 

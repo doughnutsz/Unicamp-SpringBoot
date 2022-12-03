@@ -233,13 +233,6 @@ public class CourseServicesImpl implements CourseServices {
             }
         }
         List<CourseDaoWithGrade> courseDaoWithGradeList = courseDaoList.stream().map(x -> {CourseDaoWithGrade courseDaoWithGrade = new CourseDaoWithGrade(x); courseDaoWithGrade.setRating_detail(gradeServices.getGradeDetail(x.getId())); return courseDaoWithGrade;}).collect(Collectors.toList());
-        List<Long> listA = courseDaoWithGradeList.get(0).getRating_detail();
-        double gradeA = (double)(listA.get(0) + listA.get(1)*2 + listA.get(2)*3 + listA.get(3)*4 + listA.get(4)*5)/(listA.get(0) + listA.get(1) + listA.get(2) + listA.get(3) + listA.get(4));
-        BigDecimal bigA = new BigDecimal(gradeA);
-        List<Long> listB = courseDaoWithGradeList.get(118).getRating_detail();
-        double gradeB = (double)(listB.get(0) + listB.get(1)*2 + listB.get(2)*3 + listB.get(3)*4 + listB.get(4)*5)/(listB.get(0) + listB.get(1) + listB.get(2) + listB.get(3) + listB.get(4));
-        BigDecimal bigB = new BigDecimal(gradeB);
-        int d = bigA.compareTo(bigB);
         class RatingComparator implements Comparator<CourseDaoWithGrade> {
             @Override
             public int compare(CourseDaoWithGrade a, CourseDaoWithGrade b) {

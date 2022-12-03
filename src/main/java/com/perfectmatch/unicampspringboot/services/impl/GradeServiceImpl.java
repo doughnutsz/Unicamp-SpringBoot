@@ -27,6 +27,9 @@ public class GradeServiceImpl implements GradeServices {
         for (GradeDetailView it : view) {
             ls[Math.toIntExact(it.getRating() - 1)] = it.getCount();
         }
+        if(view.isEmpty()){
+            ls = new Long[]{0L, 0L, 0L, 0L, 0L};
+        }
         return Arrays.asList(ls);
     }
 
