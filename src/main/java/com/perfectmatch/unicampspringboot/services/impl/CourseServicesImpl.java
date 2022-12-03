@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -195,7 +196,7 @@ public class CourseServicesImpl implements CourseServices {
         if(map.get("filter") != null){
             Map<String, Object> filter = (Map<String, Object>) map.get("filter");
             if(filter.get("difficulty") != null){
-                courseDaoList = courseDaoList.stream().filter(x -> filter.get("difficulty") == x.getDifficulty()).collect(Collectors.toList());
+                courseDaoList = courseDaoList.stream().filter(x -> filter.get("difficulty").equals(x.getDifficulty())).collect(Collectors.toList());
             }
             if(filter.get("subcategory_ids") != null){
                 ArrayList<Integer> arrayList = (ArrayList<Integer>)filter.get("subcategory_ids");
@@ -232,15 +233,34 @@ public class CourseServicesImpl implements CourseServices {
             }
         }
         List<CourseDaoWithGrade> courseDaoWithGradeList = courseDaoList.stream().map(x -> {CourseDaoWithGrade courseDaoWithGrade = new CourseDaoWithGrade(x); courseDaoWithGrade.setRating_detail(gradeServices.getGradeDetail(x.getId())); return courseDaoWithGrade;}).collect(Collectors.toList());
-
+        List<Long> listA = courseDaoWithGradeList.get(0).getRating_detail();
+        double gradeA = (double)(listA.get(0) + listA.get(1)*2 + listA.get(2)*3 + listA.get(3)*4 + listA.get(4)*5)/(listA.get(0) + listA.get(1) + listA.get(2) + listA.get(3) + listA.get(4));
+        BigDecimal bigA = new BigDecimal(gradeA);
+        List<Long> listB = courseDaoWithGradeList.get(118).getRating_detail();
+        double gradeB = (double)(listB.get(0) + listB.get(1)*2 + listB.get(2)*3 + listB.get(3)*4 + listB.get(4)*5)/(listB.get(0) + listB.get(1) + listB.get(2) + listB.get(3) + listB.get(4));
+        BigDecimal bigB = new BigDecimal(gradeB);
+        int d = bigA.compareTo(bigB);
         class RatingComparator implements Comparator<CourseDaoWithGrade> {
             @Override
             public int compare(CourseDaoWithGrade a, CourseDaoWithGrade b) {
                 List<Long> listA = a.getRating_detail();
-                double gradeA = (double)(listA.get(0) + listA.get(1)*2 + listA.get(2)*3 + listA.get(3)*4 + listA.get(4)*5)/(listA.get(0) + listA.get(1) + listA.get(2) + listA.get(3) + listA.get(4));
+                Long numA = listA.get(0) + listA.get(1) + listA.get(2) + listA.get(3) + listA.get(4);
+                double gradeA = 0;
+                if(numA > 0){
+                    gradeA = (double)(listA.get(0) + listA.get(1)*2 + listA.get(2)*3 + listA.get(3)*4 + listA.get(4)*5)/numA;
+                }
+                BigDecimal bigA = new BigDecimal(gradeA);
                 List<Long> listB = b.getRating_detail();
-                double gradeB = (double)(listB.get(0) + listB.get(1)*2 + listB.get(2)*3 + listB.get(3)*4 + listB.get(4)*5)/(listB.get(0) + listB.get(1) + listB.get(2) + listB.get(3) + listB.get(4));
-                return (int) (gradeA - gradeB);
+                Long numB = listB.get(0) + listB.get(1) + listB.get(2) + listB.get(3) + listB.get(4);
+                double gradeB = 0;
+                if(numB > 0) {
+                    gradeB = (double) (listB.get(0) + listB.get(1) * 2 + listB.get(2) * 3 + listB.get(3) * 4 + listB.get(4) * 5) / numB;
+                }
+                BigDecimal bigB = new BigDecimal(gradeB);
+                if(bigA.compareTo(bigB) == 0) {
+                    return a.getId().compareTo(b.getId());
+                }
+                return bigA.compareTo(bigB);
             }
         }
 

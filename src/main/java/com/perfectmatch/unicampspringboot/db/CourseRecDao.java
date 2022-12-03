@@ -3,6 +3,7 @@ package com.perfectmatch.unicampspringboot.db;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -19,7 +20,7 @@ public class CourseRecDao implements Serializable {
     private Integer est_hour = null;
     private String description = null;
 
-    private List<Long> rating_detail;
+    private List<Long> rating_detail = Collections.emptyList();
 
     public CourseRecDao(CourseDao dao) {
         this.id = dao.getId();
