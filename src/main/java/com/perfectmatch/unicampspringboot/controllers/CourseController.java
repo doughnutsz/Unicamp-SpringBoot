@@ -187,64 +187,64 @@ public class CourseController {
     }
 
 
-    static private class RelationBody {
-        private final Long pre_id;
-        private final Long post_id;
+//    static private class RelationBody {
+//        private final Long pre_id;
+//        private final Long post_id;
+//
+//        public RelationBody(Long pre_id, Long post_id) {
+//            this.post_id = post_id;
+//            this.pre_id = pre_id;
+//        }
+//    }
 
-        public RelationBody(Long pre_id, Long post_id) {
-            this.post_id = post_id;
-            this.pre_id = pre_id;
-        }
-    }
+//    @PostMapping("/course/relation/add")
+//    public ResponseEntity<Map<String, Object>> addRelation(
+//            @RequestBody RelationBody body,
+//            @RequestHeader String token
+//    ) {
+//        if (!JWTUtils.verityAdmin(token)) {
+//            return ResponseUtils.unavailable();
+//        }
+//        CourseDao pre = courseServices.getCourseById(body.pre_id);
+//        if (pre == null) {
+//            return ResponseUtils.fail("no such pre course");
+//        }
+//        CourseDao post = courseServices.getCourseById(body.post_id);
+//        if (post == null) {
+//            return ResponseUtils.fail("no such post course");
+//        }
+//        Prerequisite record = courseServices.getPrerequisite(body.pre_id, body.post_id);
+//        if (record != null) {
+//            return ResponseUtils.fail("Prerequisite already exists");
+//        }
+//        courseServices.addPrerequisite(body.pre_id, body.post_id);
+//        return ResponseUtils.success("add");
+//    }
 
-    @PostMapping("/course/relation/add")
-    public ResponseEntity<Map<String, Object>> addRelation(
-            @RequestBody RelationBody body,
-            @RequestHeader String token
-    ) {
-        if (!JWTUtils.verityAdmin(token)) {
-            return ResponseUtils.unavailable();
-        }
-        CourseDao pre = courseServices.getCourseById(body.pre_id);
-        if (pre == null) {
-            return ResponseUtils.fail("no such pre course");
-        }
-        CourseDao post = courseServices.getCourseById(body.post_id);
-        if (post == null) {
-            return ResponseUtils.fail("no such post course");
-        }
-        Prerequisite record = courseServices.getPrerequisite(body.pre_id, body.post_id);
-        if (record != null) {
-            return ResponseUtils.fail("Prerequisite already exists");
-        }
-        courseServices.addPrerequisite(body.pre_id, body.post_id);
-        return ResponseUtils.success("add");
-    }
-
-    @PostMapping("/course/relation/delete")
-    public ResponseEntity<Map<String, Object>> deleteRelation(
-            @RequestBody RelationBody body,
-            @RequestHeader String token
-    ) {
-        if (!JWTUtils.verityAdmin(token)) {
-            return ResponseUtils.unavailable();
-        }
-        CourseDao pre = courseServices.getCourseById(body.pre_id);
-        if (pre == null) {
-            return ResponseUtils.fail("no such pre course");
-        }
-        CourseDao post = courseServices.getCourseById(body.post_id);
-        if (post == null) {
-            return ResponseUtils.fail("no such post course");
-        }
-
-        Prerequisite record = courseServices.getPrerequisite(body.pre_id, body.post_id);
-        if (record == null) {
-            return ResponseUtils.fail("Prerequisite not exists");
-        }
-        courseServices.deletePrerequisite(body.pre_id, body.post_id);
-        return ResponseUtils.success("delete");
-    }
+//    @PostMapping("/course/relation/delete")
+//    public ResponseEntity<Map<String, Object>> deleteRelation(
+//            @RequestBody RelationBody body,
+//            @RequestHeader String token
+//    ) {
+//        if (!JWTUtils.verityAdmin(token)) {
+//            return ResponseUtils.unavailable();
+//        }
+//        CourseDao pre = courseServices.getCourseById(body.pre_id);
+//        if (pre == null) {
+//            return ResponseUtils.fail("no such pre course");
+//        }
+//        CourseDao post = courseServices.getCourseById(body.post_id);
+//        if (post == null) {
+//            return ResponseUtils.fail("no such post course");
+//        }
+//
+//        Prerequisite record = courseServices.getPrerequisite(body.pre_id, body.post_id);
+//        if (record == null) {
+//            return ResponseUtils.fail("Prerequisite not exists");
+//        }
+//        courseServices.deletePrerequisite(body.pre_id, body.post_id);
+//        return ResponseUtils.success("delete");
+//    }
 
     @GetMapping("/recommend/new/main")
     public ResponseEntity<List<CourseRecDao>> listNewCourse(
