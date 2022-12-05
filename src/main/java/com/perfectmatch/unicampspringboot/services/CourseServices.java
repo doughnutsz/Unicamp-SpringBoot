@@ -1,9 +1,6 @@
 package com.perfectmatch.unicampspringboot.services;
 
-import com.perfectmatch.unicampspringboot.db.CourseDao;
-import com.perfectmatch.unicampspringboot.db.CourseDaoWithGrade;
-import com.perfectmatch.unicampspringboot.db.CourseRecDao;
-import com.perfectmatch.unicampspringboot.db.Prerequisite;
+import com.perfectmatch.unicampspringboot.db.*;
 import org.apache.mahout.cf.taste.common.TasteException;
 
 import java.util.List;
@@ -46,7 +43,7 @@ public interface CourseServices {
 
     CourseDaoWithGrade getCourseWithGradeById(Long id);
 
-    List<CourseDaoWithGrade> getCard(Map<String, Object> map);
+    CourseDaoWithGradeAndNum getCard(Map<String, Object> map);
 
     Integer getNumber();
 }

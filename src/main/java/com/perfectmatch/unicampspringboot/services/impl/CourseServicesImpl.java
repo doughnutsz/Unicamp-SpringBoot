@@ -185,7 +185,7 @@ public class CourseServicesImpl implements CourseServices {
         return courseRecDaoList;
     }
 
-    public List<CourseDaoWithGrade> getCard(Map<String, Object> map){
+    public CourseDaoWithGradeAndNum getCard(Map<String, Object> map){
         List<CourseDao> courseDaoList;
         if(map.get("key")!=null){
             courseDaoList = courseMapper.findByKeyword((String)map.get("key"));
@@ -203,6 +203,7 @@ public class CourseServicesImpl implements CourseServices {
                 courseDaoList = courseDaoList.stream().filter(x -> arrayList.contains(x.getSubcategory_id().intValue())).collect(Collectors.toList());
             }
         }
+        Integer num = courseDaoList.size();
         Boolean ascending = (Boolean) map.get("ascending");
         String sort = "";
         if(map.get("sort") != null){
@@ -268,13 +269,22 @@ public class CourseServicesImpl implements CourseServices {
         }
         if(map.get("range")!=null){
             Integer from = ((Map<String, Integer>) map.get("range")).get("from");
-            Integer size = ((Map<String, Integer>) map.get("range")).get("size");
-            courseDaoWithGradeList = courseDaoWithGradeList.subList(from, from + size);
+            if(from >= num){
+                courseDaoWithGradeList = Collections.emptyList();
+            }
+            else {
+                Integer size = ((Map<String, Integer>) map.get("range")).get("size");
+                if(from + size >= num) {
+                    size = num - from;
+                }
+                courseDaoWithGradeList = courseDaoWithGradeList.subList(from, from + size);
+            }
         }
         if(!(boolean) map.get("description")){
             courseDaoWithGradeList.forEach((CourseDaoWithGrade c) -> c.setDescription(""));
         }
-        return courseDaoWithGradeList;
+        CourseDaoWithGradeAndNum courseDaoWithGradeAndNum = new CourseDaoWithGradeAndNum(courseDaoWithGradeList, num);
+        return courseDaoWithGradeAndNum;
     }
 
     public Integer getNumber(){

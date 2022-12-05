@@ -274,7 +274,7 @@ public class CourseController {
     }
 
     @PostMapping("/course/card")
-    public ResponseEntity<List<CourseDaoWithGrade>> getCard(
+    public ResponseEntity<CourseDaoWithGradeAndNum> getCard(
             @RequestBody Map<String, Object> body
     ) {
         return new ResponseEntity<>(courseServices.getCard(body), HttpStatus.OK);
